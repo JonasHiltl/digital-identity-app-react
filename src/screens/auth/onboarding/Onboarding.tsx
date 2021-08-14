@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Animated, {
   useAnimatedRef,
   useAnimatedScrollHandler,
@@ -30,15 +30,6 @@ const slides = [
 
 const { height, width } = Dimensions.get('window')
 
-type ScreenNavigationProp = NativeStackNavigationProp<
-  { Onboarding: undefined },
-  'Onboarding'
->
-
-interface Props {
-  navigation: ScreenNavigationProp
-}
-
 const Onboarding = ({
   navigation,
 }: {
@@ -46,9 +37,21 @@ const Onboarding = ({
 }) => {
   const scrollRef = useAnimatedRef<Animated.ScrollView>()
   const translationX = useSharedValue(0)
+  const currentIndex = useSharedValue(0)
 
   const scrollHandler = useAnimatedScrollHandler((event) => {
     translationX.value = event.contentOffset.x
+    if (event.contentOffset.x < width * 0.5 && currentIndex.value != 0) {
+      currentIndex.value = 0
+    } else if (
+      event.contentOffset.x > width * 0.5 &&
+      event.contentOffset.x < width * 1.5 &&
+      currentIndex.value != 1
+    ) {
+      currentIndex.value = 1
+    } else if (event.contentOffset.x > width * 1.5 && currentIndex.value != 2) {
+      currentIndex.value = 2
+    }
   })
 
   return (
@@ -86,15 +89,12 @@ const Onboarding = ({
       </Animated.ScrollView>
       <Box margin="m">
         <FlatButton
-          label={translationX.value > width ? 'Get Started' : 'Next'}
+          label="Next"
           onPress={() => {
             if (scrollRef.current) {
-              if (
-                parseInt(translationX.value.toFixed(1)) ==
-                parseInt(width.toFixed(1))
-              ) {
-                scrollRef.current.getNode().scrollToEnd()
-              } else if (translationX.value == 0) {
+              if (currentIndex.value == 1) {
+                scrollRef.current.getNode().scrollToEnd({ animated: true })
+              } else if (currentIndex.value == 0) {
                 scrollRef.current
                   .getNode()
                   .scrollTo({ x: width, animated: true })
