@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
+
 import { CustomThemeProvider } from './src/theme/CustomThemeProvider'
 import Navigation from './src/screens/session/Navigation'
 import { LogBox } from 'react-native'
@@ -13,7 +15,9 @@ export default function App() {
 
   return (
     <CustomThemeProvider>
-      {isAuthenticated ? <Navigation /> : <AuthNavigation />}
+      <BottomSheetModalProvider>
+        {isAuthenticated ? <Navigation /> : <AuthNavigation />}
+      </BottomSheetModalProvider>
     </CustomThemeProvider>
   )
 }

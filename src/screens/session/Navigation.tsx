@@ -22,8 +22,9 @@ import Home from './screens/Home'
 import Documents from './screens/Documents'
 import Settings from './screens/Settings'
 
-import { useTheme } from '../../theme/theme'
+import { Box, useTheme } from '../../theme/theme'
 import { SessionParamList } from './SessionparamList'
+import { useWindowDimensions } from 'react-native'
 
 const Stack = createNativeStackNavigator<SessionParamList>()
 const Tab = createBottomTabNavigator()
@@ -54,47 +55,50 @@ function SettingsStack() {
 
 export default function Navigation() {
   const theme = useTheme()
+  const { width, height } = useWindowDimensions()
 
   return (
-    <NavigationContainer>
-      <Tab.Navigator
-        defaultScreenOptions={{
-          tabBarActiveTintColor: theme.colors.primary,
-          tabBarInactiveTintColor: theme.colors.buttonDisabled,
-          tabBarShowLabel: false,
-        }}
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
-            if (route.name == 'Home') {
-              return focused ? (
-                <HomeIcon width={size + 3} height={size + 3} color={color} />
-              ) : (
-                <HomeOutlined width={size} height={size} color={color} />
-              )
-            } else if (route.name == 'Documents') {
-              return focused ? (
-                <File width={size} height={size} color={color} />
-              ) : (
-                <FileOutlined width={size} height={size} color={color} />
-              )
-            } else {
-              return focused ? (
-                <SettingsIcon
-                  width={size + 3}
-                  height={size + 3}
-                  color={color}
-                />
-              ) : (
-                <SettingsOutlined width={size} height={size} color={color} />
-              )
-            }
-          },
-        })}
-      >
-        <Tab.Screen name="HomeStack" component={HomeStack} />
-        <Tab.Screen name="DocumentsStack" component={DocumentsStack} />
-        <Tab.Screen name="SettingsStack" component={SettingsStack} />
-      </Tab.Navigator>
-    </NavigationContainer>
+    <Box backgroundColor="mainBackground" width={width} height={height}>
+      <NavigationContainer>
+        <Tab.Navigator
+          defaultScreenOptions={{
+            tabBarActiveTintColor: theme.colors.primary,
+            tabBarInactiveTintColor: theme.colors.buttonDisabled,
+            tabBarShowLabel: false,
+          }}
+          screenOptions={({ route }) => ({
+            tabBarIcon: ({ focused, color, size }) => {
+              if (route.name == 'Home') {
+                return focused ? (
+                  <HomeIcon width={size + 3} height={size + 3} color={color} />
+                ) : (
+                  <HomeOutlined width={size} height={size} color={color} />
+                )
+              } else if (route.name == 'Documents') {
+                return focused ? (
+                  <File width={size} height={size} color={color} />
+                ) : (
+                  <FileOutlined width={size} height={size} color={color} />
+                )
+              } else {
+                return focused ? (
+                  <SettingsIcon
+                    width={size + 3}
+                    height={size + 3}
+                    color={color}
+                  />
+                ) : (
+                  <SettingsOutlined width={size} height={size} color={color} />
+                )
+              }
+            },
+          })}
+        >
+          <Tab.Screen name="HomeStack" component={HomeStack} />
+          <Tab.Screen name="DocumentsStack" component={DocumentsStack} />
+          <Tab.Screen name="SettingsStack" component={SettingsStack} />
+        </Tab.Navigator>
+      </NavigationContainer>
+    </Box>
   )
 }

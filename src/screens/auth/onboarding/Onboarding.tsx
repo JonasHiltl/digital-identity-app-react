@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import Animated, {
   useAnimatedRef,
   useAnimatedScrollHandler,
@@ -12,6 +12,7 @@ import SlidePage from '../../../components/SlidePage'
 import { FlatButton } from '../../../components/custom_comps/Button'
 import Indicator from './Indicator'
 import { AuthParamList } from '../AuthParamList'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 const slides = [
   {
@@ -55,7 +56,7 @@ const Onboarding = ({
   })
 
   return (
-    <Box justifyContent="space-between" height={height}>
+    <Box justifyContent="space-between" height={height} flex={1}>
       <Box
         height={height * 0.6}
         backgroundColor="primary"

@@ -16,8 +16,15 @@ export const FlatButton: React.FC<Props> = ({ onPress, label, disabled }) => {
         padding="m"
         borderRadius="m"
         alignItems="center"
+        borderColor={disabled ? 'buttonDisabledBorder' : undefined}
+        borderWidth={1}
       >
-        <Text variant="button">{label}</Text>
+        <Text
+          variant="button"
+          color={disabled ? 'buttonDisabledBorder' : undefined}
+        >
+          {label}
+        </Text>
       </Box>
     </TouchableOpacity>
   )
