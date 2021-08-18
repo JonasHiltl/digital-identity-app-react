@@ -6,26 +6,26 @@ import Animated, {
 } from 'react-native-reanimated'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 
-import { Box } from '../../../theme/theme'
+import { Box } from '../../../context/theme/theme'
 import { Dimensions } from 'react-native'
 import SlidePage from '../../../components/SlidePage'
 import { FlatButton } from '../../../components/custom_comps/Button'
 import Indicator from './Indicator'
 import { AuthParamList } from '../AuthParamList'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import i18n from '../../../i18n'
 
 const slides = [
   {
-    title: 'Self Sovereign',
-    desc: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt, sed diam voluptua.',
+    title: i18n.t('onboarding.title1'),
+    desc: i18n.t('onboarding.desc1'),
   },
   {
-    title: 'Privacy',
-    desc: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt, sed diam voluptua.',
+    title: i18n.t('onboarding.title2'),
+    desc: i18n.t('onboarding.desc2'),
   },
   {
-    title: 'Self Sovereign',
-    desc: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt, sed diam voluptua.',
+    title: i18n.t('onboarding.title3'),
+    desc: i18n.t('onboarding.desc3'),
   },
 ]
 
@@ -90,7 +90,7 @@ const Onboarding = ({
       </Animated.ScrollView>
       <Box margin="m">
         <FlatButton
-          label="Next"
+          label={i18n.t('next')}
           onPress={() => {
             if (scrollRef.current) {
               if (currentIndex.value == 1) {

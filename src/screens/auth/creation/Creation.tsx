@@ -14,13 +14,15 @@ import { useWindowDimensions, StyleSheet } from 'react-native'
 
 import { FlatButton } from '../../../components/custom_comps/Button'
 import Input from '../../../components/custom_comps/Input'
-import { Box, useTheme } from '../../../theme/theme'
+import { Box, useTheme } from '../../../context/theme/theme'
 import { AuthParamList } from '../AuthParamList'
 import CreationStep from './CreationStep'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import RadioGroup from '../../../components/custom_comps/RadioGroup'
 import CountryPicker from '../../../components/custom_comps/CountryPicker'
-import CountryUtils from '../../../utils/CountryUtils'
+import CountryUtils from '../../../utils/countryUtils'
+import { Country } from '../../../types'
+import i18n from '../../../i18n'
 
 const Creation = ({
   navigation,
@@ -32,7 +34,7 @@ const Creation = ({
   const scrollRef = useAnimatedRef<Animated.ScrollView>()
   const translationX = useSharedValue(0)
   const [currentIndex, setCurrentIndex] = useState(0)
-  const [displayedCountry, setDisplayedCountry] = useState('')
+  const [displayedCountry, setDisplayedCountry] = useState<Country | null>(null)
 
   const [formData, setFormData] = useState({
     firstName: '',
@@ -105,7 +107,7 @@ const Creation = ({
 
   const getCountryByCode = async (code: string) => {
     const loadedCountry = await CountryUtils.getCountryByCode(code)
-    setDisplayedCountry(loadedCountry?.name || country)
+    setDisplayedCountry(loadedCountry)
   }
 
   useEffect(() => {
@@ -138,18 +140,18 @@ const Creation = ({
             contentContainerStyle={{ flexGrow: 1 }}
           >
             <CreationStep
-              title="Digital Identity"
-              subtitle="Complete the following steps and take control over your digital identity."
+              title={i18n.t('creation.header')}
+              subtitle={i18n.t('creation.subheader1')}
             >
               <Input
-                placeholder="First Name"
+                placeholder={i18n.t('creation.firstName')}
                 onChange={(text) => {
                   setFormData({ ...formData, firstName: text })
                 }}
                 value={firstName}
               />
               <Input
-                placeholder="Last Name"
+                placeholder={i18n.t('creation.lastName')}
                 onChange={(text) => {
                   setFormData({ ...formData, lastName: text })
                 }}
@@ -157,8 +159,8 @@ const Creation = ({
               />
             </CreationStep>
             <CreationStep
-              title="Digital Identity"
-              subtitle="These information are securely stored on your device, you decide when and with whom you want to share it."
+              title={i18n.t('creation.header2')}
+              subtitle={i18n.t('creation.subheader2')}
               goBack={() =>
                 scrollRef.current?.getNode().scrollTo({ x: 0, animated: true })
               }
@@ -168,14 +170,14 @@ const Creation = ({
                 flexDireaction="row"
                 buttons={[
                   {
-                    label: 'Male',
+                    label: i18n.t('creation.male'),
                     value: 'male',
                     onPress: () => {
                       setFormData({ ...formData, sex: 'male' })
                     },
                   },
                   {
-                    label: 'Female',
+                    label: i18n.t('creation.female'),
                     value: 'female',
                     onPress: () => {
                       setFormData({ ...formData, sex: 'female' })
@@ -185,7 +187,7 @@ const Creation = ({
               />
               <Input
                 variant="date"
-                placeholder="Date of Birth"
+                placeholder={i18n.t('creation.dateOfBirth')}
                 onChange={(text) => {
                   setFormData({ ...formData, dateOfBirth: text })
                 }}
@@ -194,8 +196,8 @@ const Creation = ({
               />
             </CreationStep>
             <CreationStep
-              title="Digital Identity"
-              subtitle="Enter your residential address to securely share it whenever you want to."
+              title={i18n.t('creation.header3')}
+              subtitle={i18n.t('creation.subheader3')}
               goBack={() =>
                 scrollRef.current
                   ?.getNode()
@@ -203,14 +205,14 @@ const Creation = ({
               }
             >
               <Input
-                placeholder="Street & Nr."
+                placeholder={i18n.t('creation.streetNumber')}
                 onChange={(text) => {
                   setFormData({ ...formData, streetNumber: text })
                 }}
                 value={streetNumber}
               />
               <Input
-                placeholder="Plz."
+                placeholder={i18n.t('creation.postalCode')}
                 onChange={(text) => {
                   setFormData({ ...formData, postalCode: text })
                 }}
@@ -218,14 +220,14 @@ const Creation = ({
                 keyboardType="numeric"
               />
               <Input
-                placeholder="City"
+                placeholder={i18n.t('creation.city')}
                 onChange={(text) => {
                   setFormData({ ...formData, city: text })
                 }}
                 value={city}
               />
               <Input
-                placeholder="State"
+                placeholder={i18n.t('creation.state')}
                 onChange={(text) => {
                   setFormData({ ...formData, state: text })
                 }}
@@ -241,7 +243,7 @@ const Creation = ({
           </Animated.ScrollView>
           <Box margin="m">
             <FlatButton
-              label="Next"
+              label={i18n.t('next')}
               disabled={
                 (currentIndex == 0 && (!firstName || !lastName)) ||
                 (currentIndex == 1 &&

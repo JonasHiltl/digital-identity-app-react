@@ -1,6 +1,6 @@
 import React from 'react'
 import { useRestyle, spacing, border, backgroundColor } from '@shopify/restyle'
-import { Box, Text, Theme } from '../../theme/theme'
+import { Box, Text, Theme } from '../../context/theme/theme'
 
 const restyleFunctions = [spacing, border, backgroundColor]
 interface Props {

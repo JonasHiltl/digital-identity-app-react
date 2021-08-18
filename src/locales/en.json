@@ -1,0 +1,40 @@
+{
+  "onboarding": {
+    "title1": "Self Souverign",
+    "desc1": "DE  1 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt, sed diam voluptua.",
+    "title2": "Privacy",
+    "desc2": "DE  2 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt, sed diam voluptua.",
+    "title3": "Control",
+    "desc3": "DE  3 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt, sed diam voluptua."
+  },
+  "next": "Next",
+  "back": "Back",
+  "create": "Create",
+  "submit": "Submit",
+  "skip": "Skip",
+  "yes": "Yes",
+  "no": "No",
+  "search": "Search",
+  "creation": {
+    "header": "Digital Identity",
+    "subheader1": "Complete the following steps and take control over your digital identity.",
+    "header2": "Some personal details",
+    "subheader2": "These information are securely stored on your device, you decide when and with whom you want to share it.",
+    "header3": "Residential Address",
+    "subheader3": "Enter your residential address to securely share it whenever you want to.",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "name": "Name",
+    "dateOfBirth": "Date of Birth",
+    "male": "Male",
+    "female": "Female",
+    "sex": "Biological Sex",
+    "simpleSex": "Sex",
+    "residence": "Residential Address",
+    "streetNumber": "Address",
+    "postalCode": "Postal Code",
+    "country": "Country",
+    "city": "City",
+    "state": "State"
+  }
+}

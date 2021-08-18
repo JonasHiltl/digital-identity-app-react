@@ -2,7 +2,7 @@ import React from 'react'
 import { TouchableOpacity, useWindowDimensions } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 
-import { Box, Text } from '../../../theme/theme'
+import { Box, Text } from '../../../context/theme/theme'
 
 interface Props {
   title: string

@@ -1,7 +1,7 @@
 import React from 'react'
 import { SafeAreaView } from 'react-native'
 
-import { Box, Text } from '../../../theme/theme'
+import { Box, Text } from '../../../context/theme/theme'
 
 const Documents: React.FC = () => {
   return (

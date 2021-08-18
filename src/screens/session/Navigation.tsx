@@ -22,7 +22,7 @@ import Home from './screens/Home'
 import Documents from './screens/Documents'
 import Settings from './screens/Settings'
 
-import { Box, useTheme } from '../../theme/theme'
+import { Box, useTheme } from '../../context/theme/theme'
 import { SessionParamList } from './SessionparamList'
 import { useWindowDimensions } from 'react-native'
 

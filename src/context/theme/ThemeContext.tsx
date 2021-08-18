@@ -7,7 +7,7 @@ export type ContextType = {
 
 const ThemeContext = createContext<ContextType>({
   isDark: true,
-  toggleTheme: () => console.warn('Still using initial value'),
+  toggleTheme: () => console.warn('No Theme provider above component'),
 })
 
 export const useTheme = () => useContext(ThemeContext)

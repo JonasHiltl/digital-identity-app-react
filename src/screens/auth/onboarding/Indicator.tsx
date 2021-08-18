@@ -4,7 +4,7 @@ import Animated, {
   interpolate,
   useAnimatedStyle,
 } from 'react-native-reanimated'
-import { Box, useTheme } from '../../../theme/theme'
+import { Box, useTheme } from '../../../context/theme/theme'
 import { useWindowDimensions, StyleSheet } from 'react-native'
 
 interface Props {

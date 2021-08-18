@@ -1,6 +1,6 @@
 import React from 'react'
 import { TouchableOpacity } from 'react-native'
-import { Box, Text } from '../../theme/theme'
+import { Box, Text } from '../../context/theme/theme'
 
 interface Props {
   onPress: () => void

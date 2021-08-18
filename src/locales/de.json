@@ -1,0 +1,40 @@
+{
+  "onboarding": {
+    "title1": "Selbstsouverän",
+    "desc1": "DE  1 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt, sed diam voluptua.",
+    "title2": "Privatsphäre",
+    "desc2": "DE  2 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt, sed diam voluptua.",
+    "title3": "Kontrolle",
+    "desc3": "DE  3 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt, sed diam voluptua."
+  },
+  "next": "Weiter",
+  "back": "Zurück",
+  "create": "Erstellen",
+  "submit": "Erstellen",
+  "skip": "Überspringen",
+  "yes": "Ja",
+  "no": "Nein",
+  "search": "Suchen",
+  "creation": {
+    "header": "Digitale Identität",
+    "subheader1": "Vervollständige die folgenden Schritte und übernimm die Kontrolle deiner digitale Identität.",
+    "header2": "Ein paar persönliche Details",
+    "subheader2": "Diese Informationen werden sicher auf deinem Gerät gespeichert, du entscheidest wann du sie teilen möchtest.",
+    "header3": "Wohnadresse",
+    "subheader3": "Gib deine Wohnadresse an, um sie sicher zu teilen, wann immer du willst.",
+    "firstName": "Vorname",
+    "lastName": "Nachname",
+    "name": "Name",
+    "dateOfBirth": "Geburtsdatum",
+    "sex": "Biologisches Geschlecht",
+    "simpleSex": "Geschlecht",
+    "male": "Männlich",
+    "female": "Weiblich",
+    "residence": "Wohnadresse",
+    "streetNumber": "Straße + Nr.",
+    "postalCode": "PLZ",
+    "country": "Land",
+    "city": "Stadt",
+    "state": "Bundesland"
+  }
+}

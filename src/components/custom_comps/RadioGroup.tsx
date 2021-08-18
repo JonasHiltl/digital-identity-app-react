@@ -1,6 +1,6 @@
 import React from 'react'
 import { Ionicons } from '@expo/vector-icons'
-import { Box, useTheme, Text } from '../../theme/theme'
+import { Box, useTheme, Text } from '../../context/theme/theme'
 import { TouchableOpacity } from 'react-native'
 
 interface Props {

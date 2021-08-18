@@ -5,34 +5,29 @@ import {
   Image,
   PlatformColor,
 } from 'react-native'
-import axios from 'axios'
 import { BottomSheetFlatList, BottomSheetModal } from '@gorhom/bottom-sheet'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 
-import { Box, Text, useTheme } from '../../theme/theme'
+import { Box, Text, useTheme } from '../../context/theme/theme'
 import Input from './Input'
-import CountryUtils from '../../utils/CountryUtils'
+import CountryUtils from '../../utils/countryUtils'
+import { Country } from '../../types'
+import i18n from '../../i18n'
 
 interface Props {
   onCountrySelected: (country: string) => void
-  value: string
+  value: Country | null
 }
 
 interface renderItemProps {
-  item: CountryProps
-}
-
-interface CountryProps {
-  flag: string
-  name: string
-  alpha2Code: string
+  item: Country
 }
 
 const CountryPicker: React.FC<Props> = ({ onCountrySelected, value }) => {
   const theme = useTheme()
   const bottomSheetModalRef = useRef<BottomSheetModal>(null)
 
-  const [countries, setCountries] = useState<CountryProps[]>([])
+  const [countries, setCountries] = useState<Country[]>([])
 
   const snapPoints = useMemo(() => ['75%', '90%'], [])
 
@@ -107,9 +102,20 @@ const CountryPicker: React.FC<Props> = ({ onCountrySelected, value }) => {
             borderWidth={2}
           >
             {!value ? (
-              <Text style={classes.placeholder}>Country</Text>
+              <Text style={classes.placeholder}>
+                {i18n.t('creation.country')}
+              </Text>
             ) : (
-              <Text>{value}</Text>
+              <Box justifyContent="space-between" flexDirection="row">
+                <Text>{value.name}</Text>
+                <Image
+                  source={{
+                    width: 24,
+                    height: 16,
+                    uri: `https://www.countryflags.io/${value.alpha2Code}/flat/64.png`,
+                  }}
+                />
+              </Box>
             )}
           </Box>
         </Box>
@@ -129,7 +135,7 @@ const CountryPicker: React.FC<Props> = ({ onCountrySelected, value }) => {
         }}
       >
         <Box marginHorizontal="m">
-          <Input placeholder="search" onChange={getCountryByName} />
+          <Input placeholder={i18n.t('search')} onChange={getCountryByName} />
         </Box>
         {countries.length == 0 ? (
           <Text textAlign="center">No Countries found</Text>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { KeyboardTypeOptions, TextInput } from 'react-native'
 import MaskInput, { Masks } from 'react-native-mask-input'
-import { Box, Text } from '../../theme/theme'
+import { Box, Text } from '../../context/theme/theme'
 
 interface Props {
   variant?: 'plain' | 'date'

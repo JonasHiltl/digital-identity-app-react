@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { Dimensions } from 'react-native'
-import { Box, Text } from '../theme/theme'
+import { Box, Text } from '../context/theme/theme'
 import Animated, {
   interpolate,
   useAnimatedStyle,
