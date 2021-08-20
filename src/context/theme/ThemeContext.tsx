@@ -10,6 +10,6 @@ const ThemeContext = createContext<ContextType>({
   toggleTheme: () => console.warn('No Theme provider above component'),
 })
 
-export const useTheme = () => useContext(ThemeContext)
+export const useThemeContext = () => useContext(ThemeContext)
 
 export default ThemeContext

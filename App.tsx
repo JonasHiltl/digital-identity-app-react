@@ -10,6 +10,7 @@ import { DID } from './src/types'
 import SecureStorage from './src/utils/secureStorage'
 import AuthContext from './src/context/auth/AuthContext'
 import Loading from './src/screens/Loading'
+import JWTUtils from './src/utils/jwtUtils'
 
 LogBox.ignoreLogs([
   'ReactNativeFiberHostComponent: Calling getNode() on the ref of an Animated component is no longer necessary. You can now directly use the ref instead. This method will be removed in a future release.',
@@ -18,9 +19,10 @@ LogBox.ignoreLogs([
 const queryClient = new QueryClient()
 
 export default function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false)
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true)
   const [did, setDid] = useState<DID | null>(null)
   const [isLoading, setLoading] = useState<boolean>(false)
+  const [jwt, setJwt] = useState('')
 
   function logout() {
     setIsAuthenticated(false)
@@ -33,8 +35,8 @@ export default function App() {
   }
 
   const providerAuth = useMemo(
-    () => ({ isAuthenticated, logout, login, did }),
-    [isAuthenticated, did],
+    () => ({ isAuthenticated, logout, login, did, jwt }),
+    [isAuthenticated, did, jwt],
   )
 
   useEffect(() => {
@@ -48,8 +50,14 @@ export default function App() {
       } else {
         const did: DID = JSON.parse(didJson)
         console.log(did)
+        const jwt = await JWTUtils.create(
+          did.id,
+          did.key.secret,
+          did.key.public,
+        )
         setIsAuthenticated(true)
         setDid(did)
+        setJwt(jwt)
         return did
       }
     }

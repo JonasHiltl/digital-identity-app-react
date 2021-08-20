@@ -1,16 +1,9 @@
 import React from 'react'
-import { useRestyle, spacing, border, backgroundColor } from '@shopify/restyle'
-import { Box, Text, Theme } from '../../context/theme/theme'
+import { Box, Text } from '../../context/theme/theme'
 
-const restyleFunctions = [spacing, border, backgroundColor]
-interface Props {
-  title: string
-}
-
-const Paper: React.FC<Props> = ({ title, children }) => {
+const Paper: React.FC = ({ children }) => {
   return (
-    <Box>
-      <Text variant="heading">{title}</Text>
+    <Box backgroundColor="backgroundAccent" borderRadius="m" padding="m">
       {children}
     </Box>
   )

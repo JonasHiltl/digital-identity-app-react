@@ -20,61 +20,86 @@ import {
 // screens
 import Home from './screens/Home'
 import Documents from './screens/Documents'
-import Settings from './screens/Settings'
+import Settings from './screens/Settings/Settings'
 
 import { Box, useTheme } from '../../context/theme/theme'
 import { SessionParamList } from './SessionparamList'
 import { useWindowDimensions } from 'react-native'
+import { backgroundColor } from '@shopify/restyle'
 
 const Stack = createNativeStackNavigator<SessionParamList>()
 const Tab = createBottomTabNavigator()
-
-function HomeStack() {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen name="Home" component={Home} />
-    </Stack.Navigator>
-  )
-}
-
-function DocumentsStack() {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen name="Documents" component={Documents} />
-    </Stack.Navigator>
-  )
-}
-
-function SettingsStack() {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen name="Settings" component={Settings} />
-    </Stack.Navigator>
-  )
-}
 
 export default function Navigation() {
   const theme = useTheme()
   const { width, height } = useWindowDimensions()
 
+  function HomeStack() {
+    return (
+      <Stack.Navigator>
+        <Stack.Screen
+          options={{
+            headerStyle: { backgroundColor: theme.colors.backgroundAccent },
+            headerTitleStyle: { color: theme.colors.fontHeader },
+          }}
+          name="Home"
+          component={Home}
+        />
+      </Stack.Navigator>
+    )
+  }
+
+  function DocumentsStack() {
+    return (
+      <Stack.Navigator>
+        <Stack.Screen
+          options={{
+            headerStyle: { backgroundColor: theme.colors.backgroundAccent },
+            headerTitleStyle: { color: theme.colors.fontHeader },
+          }}
+          name="Documents"
+          component={Documents}
+        />
+      </Stack.Navigator>
+    )
+  }
+
+  function SettingsStack() {
+    return (
+      <Stack.Navigator>
+        <Stack.Screen
+          options={{
+            headerStyle: { backgroundColor: theme.colors.backgroundAccent },
+            headerTitleStyle: { color: theme.colors.fontHeader },
+          }}
+          name="Settings"
+          component={Settings}
+        />
+      </Stack.Navigator>
+    )
+  }
+
   return (
-    <Box backgroundColor="mainBackground" width={width} height={height}>
+    <Box backgroundColor="mainBackground" flex={1}>
       <NavigationContainer>
         <Tab.Navigator
-          defaultScreenOptions={{
-            tabBarActiveTintColor: theme.colors.primary,
-            tabBarInactiveTintColor: theme.colors.buttonDisabled,
-            tabBarShowLabel: false,
-          }}
           screenOptions={({ route }) => ({
+            tabBarActiveTintColor: theme.colors.primary,
+            tabBarInactiveTintColor: theme.colors.iconInactive,
+            tabBarShowLabel: false,
+            headerShown: false,
+            tabBarStyle: {
+              backgroundColor: theme.colors.backgroundAccent,
+              borderTopColor: theme.colors.divider,
+            },
             tabBarIcon: ({ focused, color, size }) => {
-              if (route.name == 'Home') {
+              if (route.name == 'HomeStack') {
                 return focused ? (
                   <HomeIcon width={size + 3} height={size + 3} color={color} />
                 ) : (
                   <HomeOutlined width={size} height={size} color={color} />
                 )
-              } else if (route.name == 'Documents') {
+              } else if (route.name == 'DocumentsStack') {
                 return focused ? (
                   <File width={size} height={size} color={color} />
                 ) : (

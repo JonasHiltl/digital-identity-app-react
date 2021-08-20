@@ -27,3 +27,5 @@ class DIDUtils {
     return did
   }
 }
+
+export default DIDUtils

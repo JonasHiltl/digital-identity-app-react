@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack/lib/typescript/src/types'
 import Animated, {
   Extrapolate,
@@ -10,6 +10,7 @@ import Animated, {
   useSharedValue,
 } from 'react-native-reanimated'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { useWindowDimensions, StyleSheet } from 'react-native'
 
 import { FlatButton } from '../../../components/custom_comps/Button'
@@ -17,12 +18,13 @@ import Input from '../../../components/custom_comps/Input'
 import { Box, useTheme } from '../../../context/theme/theme'
 import { AuthParamList } from '../AuthParamList'
 import CreationStep from './CreationStep'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import RadioGroup from '../../../components/custom_comps/RadioGroup'
 import CountryPicker from '../../../components/custom_comps/CountryPicker'
 import CountryUtils from '../../../utils/countryUtils'
+// import DIDUtils from '../../../utils/didUtils'
 import { Country } from '../../../types'
 import i18n from '../../../i18n'
+import AuthContext from '../../../context/auth/AuthContext'
 
 const Creation = ({
   navigation,
@@ -30,7 +32,7 @@ const Creation = ({
   navigation: NativeStackNavigationProp<AuthParamList, 'Onboarding'>
 }) => {
   const theme = useTheme()
-  const { width, height } = useWindowDimensions()
+  const { width } = useWindowDimensions()
   const scrollRef = useAnimatedRef<Animated.ScrollView>()
   const translationX = useSharedValue(0)
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -258,6 +260,7 @@ const Creation = ({
                     .scrollTo({ x: width, animated: true })
                 } else if (currentIndex == 1) {
                   scrollRef.current?.getNode().scrollToEnd({ animated: true })
+                } else {
                 }
               }}
             />

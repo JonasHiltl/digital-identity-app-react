@@ -1,15 +1,21 @@
 import React from 'react'
 import { SafeAreaView } from 'react-native'
 
-import { Box, Text } from '../../../context/theme/theme'
+import { Box, Text, useTheme } from '../../../context/theme/theme'
 
 const Home: React.FC = () => {
+  const theme = useTheme()
   return (
-    <SafeAreaView
-      style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+    <Box
+      style={{
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: theme.colors.mainBackground,
+      }}
     >
       <Text>Home Screen</Text>
-    </SafeAreaView>
+    </Box>
   )
 }
 

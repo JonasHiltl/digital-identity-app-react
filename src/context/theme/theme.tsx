@@ -15,25 +15,32 @@ export const palette = {
   primary: '#303779',
 
   // Dark Mode:
+  darkPrimary: '#3861FB',
   fontLightest: '#FFF',
   fontLightSubheader: '#3a3a3a',
-  darkBackground: '#141414',
+  darkBackground: '#010409',
   darkInputBlurBorder: 'rgba(255,255,255,0.1)',
   darkInputBG: '#262837',
   darkDisabledButtonBorder: 'rgba(255,255,255,0.1)',
+  darkbackgroundAccent: 'rgb(13, 17, 23)',
+  darkIconInactive: 'rgba(56,97,251,0.3)',
+  darkDivider: 'rgb(48, 54, 61)',
+  darkIcon: '#f2f2f2',
 
   // Light Mode Text:
   fontDarkest: '#07090D',
   fontDarkSubheader: '#5d6579',
-  lightBackground: '#fff',
+  lightBackground: '#f7fbff',
   disabledGray: 'rgba(48,55,121,0.1)',
   lightInputBlurBorder: 'rgba(48,55,121,0.2)',
   lightInputBG: '#f1f3fd',
   lightDisabledButtonBorder: '#D9D9D9',
+  lightIcon: '#0B0C10',
+  lightIconInactive: 'rgba(48,55,121,0.3)',
+  lightDivider: '#A4A4A4',
 
   inputErrorBG: 'rgba(223,31,21,0.1)',
-  /* placeholder: PlatformColor('placeholderText').valueOf().toString(), */
-  black: '#0E121B',
+  black: '#000',
   white: '#FFF',
   error: '#df1f15',
 }
@@ -52,14 +59,18 @@ export const lightTheme = createTheme({
 
     fontHeader: palette.fontDarkest,
     fontSubheader: palette.fontDarkSubheader,
-    /* placeholder: palette.placeholder, */
 
     mainBackground: palette.lightBackground,
-    mainForeground: palette.black,
+    backgroundAccent: palette.white,
+    mainForeground: palette.primary,
     cardPrimaryBackground: palette.white,
     inputBlurColor: palette.lightInputBlurBorder,
     inputBG: palette.lightInputBG,
     inputErrorBG: palette.inputErrorBG,
+
+    icon: palette.lightIcon,
+    iconInactive: palette.lightIconInactive,
+    divider: palette.lightDivider,
   },
   cardVariants: {
     defaults: {
@@ -116,10 +127,16 @@ export const lightTheme = createTheme({
       textAlign: 'center',
     },
     subheader: {
-      fontWeight: '500',
-      fontSize: 20,
-      lineHeight: 26,
+      fontWeight: '400',
+      fontSize: 16,
+      lineHeight: 22,
       color: 'fontSubheader',
+    },
+    subtitle: {
+      fontWeight: '400',
+      fontSize: 16,
+      lineHeight: 22,
+      color: 'fontHeader',
     },
     body: {
       fontWeight: '400',
@@ -162,7 +179,10 @@ export const darkTheme: Theme = createTheme({
   ...lightTheme,
   colors: {
     ...lightTheme.colors,
+    primary: palette.darkPrimary,
+
     mainBackground: palette.darkBackground,
+    backgroundAccent: palette.darkbackgroundAccent,
     mainForeground: palette.white,
     cardPrimaryBackground: palette.darkBackground,
 
@@ -172,6 +192,11 @@ export const darkTheme: Theme = createTheme({
     fontSubheader: palette.fontLightSubheader,
     inputBlurColor: palette.darkInputBlurBorder,
     inputBG: palette.darkInputBG,
+
+    icon: palette.darkIcon,
+    iconInactive: palette.darkIconInactive,
+
+    divider: palette.darkDivider,
   },
 })
 

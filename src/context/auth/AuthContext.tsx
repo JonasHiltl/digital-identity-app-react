@@ -3,6 +3,7 @@ import { DID } from '../../types'
 
 export type ContextType = {
   isAuthenticated: boolean
+  jwt: string
   logout: () => void
   login: (did: DID) => void
   did: DID | null
@@ -10,6 +11,7 @@ export type ContextType = {
 
 const AuthContext = createContext<ContextType>({
   isAuthenticated: false,
+  jwt: '',
   logout: () => console.warn('Not Auth provider above component'),
   login: () => console.warn('Not Auth provider above component'),
   did: null,

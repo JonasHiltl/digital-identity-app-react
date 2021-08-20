@@ -4,7 +4,7 @@ import { darkTheme, lightTheme } from './theme'
 import ThemeContext from './ThemeContext'
 
 export const CustomThemeProvider: React.FC = ({ children }) => {
-  const [isDark, setDark] = useState(false)
+  const [isDark, setDark] = useState<boolean>(false)
 
   const toggleTheme = () => {
     setDark((isDark) => !isDark)
