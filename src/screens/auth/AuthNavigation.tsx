@@ -21,6 +21,8 @@ export default () => {
     colors: {
       ...DefaultTheme.colors,
       background: theme.colors.mainBackground,
+      primary: theme.colors.primary,
+      card: theme.colors.backgroundAccent,
     },
   }
 

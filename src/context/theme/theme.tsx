@@ -18,12 +18,13 @@ export const palette = {
   darkPrimary: '#3861FB',
   fontLightest: '#FFF',
   fontLightSubheader: '#3a3a3a',
+  darkPlaceholder: '#74757c',
   darkBackground: '#010409',
   darkInputBlurBorder: 'rgba(255,255,255,0.1)',
   darkInputBG: '#262837',
   darkDisabledButtonBorder: 'rgba(255,255,255,0.1)',
   darkbackgroundAccent: 'rgb(13, 17, 23)',
-  darkIconInactive: 'rgba(56,97,251,0.3)',
+  darkIconInactive: 'rgba(256,256,256,0.3)',
   darkDivider: 'rgb(48, 54, 61)',
   darkIcon: '#f2f2f2',
 
@@ -59,16 +60,18 @@ export const lightTheme = createTheme({
 
     fontHeader: palette.fontDarkest,
     fontSubheader: palette.fontDarkSubheader,
+    placeholder: palette.darkPlaceholder,
 
     mainBackground: palette.lightBackground,
     backgroundAccent: palette.white,
-    mainForeground: palette.primary,
+    mainForeground: palette.fontDarkest,
     cardPrimaryBackground: palette.white,
     inputBlurColor: palette.lightInputBlurBorder,
     inputBG: palette.lightInputBG,
     inputErrorBG: palette.inputErrorBG,
 
     icon: palette.lightIcon,
+    navigationIcon: palette.primary,
     iconInactive: palette.lightIconInactive,
     divider: palette.lightDivider,
   },
@@ -144,6 +147,12 @@ export const lightTheme = createTheme({
       lineHeight: 20,
       color: 'fontHeader',
     },
+    inputLabel: {
+      fontWeight: '400',
+      fontSize: 14,
+      lineHeight: 20,
+      color: 'fontSubheader',
+    },
     link: {
       fontWeight: '400',
       fontSize: 14,
@@ -183,7 +192,7 @@ export const darkTheme: Theme = createTheme({
 
     mainBackground: palette.darkBackground,
     backgroundAccent: palette.darkbackgroundAccent,
-    mainForeground: palette.white,
+    mainForeground: palette.fontLightest,
     cardPrimaryBackground: palette.darkBackground,
 
     buttonDisabledBorder: palette.darkDisabledButtonBorder,
@@ -194,6 +203,7 @@ export const darkTheme: Theme = createTheme({
     inputBG: palette.darkInputBG,
 
     icon: palette.darkIcon,
+    navigationIcon: palette.fontLightest,
     iconInactive: palette.darkIconInactive,
 
     divider: palette.darkDivider,

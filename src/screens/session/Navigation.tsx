@@ -1,12 +1,12 @@
 import React from 'react'
 
 // navigation components
-import { NavigationContainer } from '@react-navigation/native'
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { NavigationContainer, DefaultTheme } from '@react-navigation/native'
 import {
-  BottomTabNavigationOptions,
-  createBottomTabNavigator,
-} from '@react-navigation/bottom-tabs'
+  createNativeStackNavigator,
+  NativeStackNavigationOptions,
+} from '@react-navigation/native-stack'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
 import {
   File,
@@ -25,26 +25,31 @@ import Settings from './screens/Settings/Settings'
 import { Box, useTheme } from '../../context/theme/theme'
 import { SessionParamList } from './SessionparamList'
 import { useWindowDimensions } from 'react-native'
-import { backgroundColor } from '@shopify/restyle'
+import ContactInformation from './screens/Settings/ContactInformation'
+import { useThemeContext } from '../../context/theme/ThemeContext'
+import i18n from '../../i18n'
+import PersonalData from './screens/Settings/PersonalData'
+import Residence from './screens/Settings/Residence'
 
 const Stack = createNativeStackNavigator<SessionParamList>()
 const Tab = createBottomTabNavigator()
 
 export default function Navigation() {
   const theme = useTheme()
+  const { isDark } = useThemeContext()
   const { width, height } = useWindowDimensions()
+
+  const stackOptions: NativeStackNavigationOptions = {
+    headerBackTitle: i18n.t('back'),
+    headerStyle: { backgroundColor: theme.colors.backgroundAccent },
+    headerTintColor: theme.colors.primary,
+    headerTitleStyle: { color: theme.colors.fontHeader },
+  }
 
   function HomeStack() {
     return (
       <Stack.Navigator>
-        <Stack.Screen
-          options={{
-            headerStyle: { backgroundColor: theme.colors.backgroundAccent },
-            headerTitleStyle: { color: theme.colors.fontHeader },
-          }}
-          name="Home"
-          component={Home}
-        />
+        <Stack.Screen options={stackOptions} name="Home" component={Home} />
       </Stack.Navigator>
     )
   }
@@ -54,8 +59,8 @@ export default function Navigation() {
       <Stack.Navigator>
         <Stack.Screen
           options={{
-            headerStyle: { backgroundColor: theme.colors.backgroundAccent },
-            headerTitleStyle: { color: theme.colors.fontHeader },
+            ...stackOptions,
+            headerTitle: i18n.t('documents.documents'),
           }}
           name="Documents"
           component={Documents}
@@ -69,11 +74,35 @@ export default function Navigation() {
       <Stack.Navigator>
         <Stack.Screen
           options={{
-            headerStyle: { backgroundColor: theme.colors.backgroundAccent },
-            headerTitleStyle: { color: theme.colors.fontHeader },
+            ...stackOptions,
+            headerTitle: i18n.t('settings.settings'),
           }}
           name="Settings"
           component={Settings}
+        />
+        <Stack.Screen
+          options={{
+            ...stackOptions,
+            headerTitle: i18n.t('settings.contactInformation'),
+          }}
+          name="ContactInformation"
+          component={ContactInformation}
+        />
+        <Stack.Screen
+          options={{
+            ...stackOptions,
+            headerTitle: i18n.t('creation.residence'),
+          }}
+          name="Residence"
+          component={Residence}
+        />
+        <Stack.Screen
+          options={{
+            ...stackOptions,
+            headerTitle: i18n.t('settings.personalData'),
+          }}
+          name="PersonalData"
+          component={PersonalData}
         />
       </Stack.Navigator>
     )
@@ -81,10 +110,20 @@ export default function Navigation() {
 
   return (
     <Box backgroundColor="mainBackground" flex={1}>
-      <NavigationContainer>
+      <NavigationContainer
+        theme={{
+          dark: isDark,
+          colors: {
+            ...DefaultTheme.colors,
+            primary: theme.colors.primary,
+            background: theme.colors.mainBackground,
+            card: theme.colors.backgroundAccent,
+          },
+        }}
+      >
         <Tab.Navigator
           screenOptions={({ route }) => ({
-            tabBarActiveTintColor: theme.colors.primary,
+            tabBarActiveTintColor: theme.colors.navigationIcon,
             tabBarInactiveTintColor: theme.colors.iconInactive,
             tabBarShowLabel: false,
             headerShown: false,

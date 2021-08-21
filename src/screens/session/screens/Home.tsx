@@ -11,7 +11,6 @@ const Home: React.FC = () => {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: theme.colors.mainBackground,
       }}
     >
       <Text>Home Screen</Text>

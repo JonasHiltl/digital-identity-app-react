@@ -36,5 +36,21 @@
     "country": "Country",
     "city": "City",
     "state": "State"
+  },
+  "documents": {
+    "documents": "Documents"
+  },
+  "settings": {
+    "settings": "Settings",
+    "preferences": "Preferences",
+    "profile": "Profile",
+    "security": "Security",
+    "personalData": "Personal Data",
+    "contactInformation": "Contact Information",
+    "fingerprint": "Fingerprint",
+    "touchId": "Touch ID",
+    "darkMode": "Dark Mode",
+    "email": "Email",
+    "phoneNumber": "Phone Number"
   }
 }

@@ -11,7 +11,6 @@ const Documents: React.FC = () => {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: theme.colors.mainBackground,
       }}
     >
       <Text>Documents Screen</Text>

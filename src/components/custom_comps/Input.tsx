@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import { KeyboardTypeOptions, TextInput } from 'react-native'
 import MaskInput, { Masks } from 'react-native-mask-input'
-import { Box, Text } from '../../context/theme/theme'
+import { Box, Text, useTheme } from '../../context/theme/theme'
+import { useThemeContext } from '../../context/theme/ThemeContext'
 
 interface Props {
   variant?: 'plain' | 'date'
+  label?: string
   errorMessage?: string
   placeholder: string
   value?: string
@@ -14,6 +16,7 @@ interface Props {
 
 const Input: React.FC<Props> = ({
   variant,
+  label,
   errorMessage,
   placeholder,
   onChange,
@@ -21,9 +24,12 @@ const Input: React.FC<Props> = ({
   keyboardType,
 }) => {
   const [focused, setFocused] = useState(false)
+  const theme = useTheme()
+  const { isDark } = useThemeContext()
 
   return (
     <Box marginVertical="xs">
+      <Text variant="inputLabel">{label}</Text>
       <Box
         borderColor={errorMessage ? 'error' : focused ? 'primary' : 'inputBG'}
         paddingVertical="inputS"
@@ -35,7 +41,9 @@ const Input: React.FC<Props> = ({
         {variant === 'date' ? (
           // @ts-ignore
           <MaskInput
+            style={{ color: theme.colors.fontHeader }}
             placeholder="dd/mm/yyyy"
+            placeholderTextColor={isDark ? theme.colors.placeholder : undefined}
             mask={Masks.DATE_DDMMYYYY}
             onFocus={() => setFocused(true)}
             onBlur={() => setFocused(false)}
@@ -45,7 +53,9 @@ const Input: React.FC<Props> = ({
           />
         ) : (
           <TextInput
+            style={{ color: theme.colors.fontHeader }}
             placeholder={placeholder}
+            placeholderTextColor={isDark ? theme.colors.placeholder : undefined}
             onFocus={() => setFocused(true)}
             onBlur={() => setFocused(false)}
             onChangeText={onChange}

@@ -1,20 +1,20 @@
-import { ThemeContext } from '@shopify/restyle/dist/context'
-import React, { useContext } from 'react'
-import { Switch } from 'react-native'
+import React from 'react'
+import { Switch, Platform, PlatformColor } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 
 import Paper from '../../../../../components/custom_comps/paper'
 import { Box, Text, useTheme } from '../../../../../context/theme/theme'
 import { useThemeContext } from '../../../../../context/theme/ThemeContext'
+import i18n from '../../../../../i18n'
 
 const Preferences = () => {
   const theme = useTheme()
 
   const { isDark, toggleTheme } = useThemeContext()
   return (
-    <Box>
+    <Box marginBottom="m">
       <Text variant="subheader" paddingHorizontal="m" paddingBottom="xs">
-        Preferences
+        {i18n.t('settings.preferences')}
       </Text>
       <Paper>
         <Box
@@ -29,9 +29,19 @@ const Preferences = () => {
               color={theme.colors.icon}
               style={{ paddingRight: theme.spacing.m }}
             />
-            <Text variant="subtitle">Dark Mode</Text>
+            <Text variant="subtitle">{i18n.t('settings.darkMode')}</Text>
           </Box>
-          <Switch value={isDark} onValueChange={toggleTheme} />
+          <Switch
+            value={isDark}
+            onValueChange={toggleTheme}
+            thumbColor={
+              Platform.OS === 'ios'
+                ? undefined
+                : isDark
+                ? theme.colors.primary
+                : undefined
+            }
+          />
         </Box>
       </Paper>
     </Box>

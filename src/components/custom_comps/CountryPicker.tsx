@@ -13,18 +13,25 @@ import Input from './Input'
 import CountryUtils from '../../utils/countryUtils'
 import { Country } from '../../types'
 import i18n from '../../i18n'
+import { useThemeContext } from '../../context/theme/ThemeContext'
 
 interface Props {
   onCountrySelected: (country: string) => void
   value: Country | null
+  label?: string
 }
 
 interface renderItemProps {
   item: Country
 }
 
-const CountryPicker: React.FC<Props> = ({ onCountrySelected, value }) => {
+const CountryPicker: React.FC<Props> = ({
+  onCountrySelected,
+  value,
+  label,
+}) => {
   const theme = useTheme()
+  const { isDark } = useThemeContext()
   const bottomSheetModalRef = useRef<BottomSheetModal>(null)
 
   const [countries, setCountries] = useState<Country[]>([])
@@ -92,38 +99,45 @@ const CountryPicker: React.FC<Props> = ({ onCountrySelected, value }) => {
   return (
     <Box>
       <TouchableWithoutFeedback onPress={handlePresentModalPress}>
-        <Box marginVertical="xs">
-          <Box
-            paddingVertical="inputS"
-            paddingHorizontal="inputM"
-            borderRadius="s"
-            backgroundColor="inputBG"
-            borderColor="inputBG"
-            borderWidth={2}
-          >
-            {!value ? (
-              <Text style={classes.placeholder}>
-                {i18n.t('creation.country')}
-              </Text>
-            ) : (
-              <Box justifyContent="space-between" flexDirection="row">
-                <Text>{value.name}</Text>
-                <Image
-                  source={{
-                    width: 24,
-                    height: 16,
-                    uri: `https://www.countryflags.io/${value.alpha2Code}/flat/64.png`,
-                  }}
-                />
-              </Box>
-            )}
-          </Box>
+        <Text variant="inputLabel">{label}</Text>
+        <Box
+          paddingVertical="inputS"
+          paddingHorizontal="inputM"
+          borderRadius="s"
+          backgroundColor="inputBG"
+          borderColor="inputBG"
+          borderWidth={2}
+        >
+          {!value ? (
+            <Text
+              style={{
+                color: isDark
+                  ? theme.colors.placeholder
+                  : PlatformColor('placeholderText'),
+              }}
+            >
+              {i18n.t('creation.country')}
+            </Text>
+          ) : (
+            <Box justifyContent="space-between" flexDirection="row">
+              <Text>{value.name}</Text>
+              <Image
+                source={{
+                  width: 24,
+                  height: 16,
+                  uri: `https://www.countryflags.io/${value.alpha2Code}/flat/64.png`,
+                }}
+              />
+            </Box>
+          )}
         </Box>
       </TouchableWithoutFeedback>
       <BottomSheetModal
         onDismiss={handleDismissModalPress}
         ref={bottomSheetModalRef}
         snapPoints={snapPoints}
+        handleIndicatorStyle={{ backgroundColor: theme.colors.mainForeground }}
+        handleStyle={{ backgroundColor: theme.colors.mainBackground }}
         style={{
           borderTopLeftRadius: theme.borderRadii.l,
           borderTopRightRadius: theme.borderRadii.l,
@@ -134,13 +148,14 @@ const CountryPicker: React.FC<Props> = ({ onCountrySelected, value }) => {
           shadowOffset: { width: 0, height: 2 },
         }}
       >
-        <Box marginHorizontal="m">
+        <Box paddingHorizontal="m" backgroundColor="mainBackground">
           <Input placeholder={i18n.t('search')} onChange={getCountryByName} />
         </Box>
         {countries.length == 0 ? (
           <Text textAlign="center">No Countries found</Text>
         ) : (
           <BottomSheetFlatList
+            style={{ backgroundColor: theme.colors.mainBackground }}
             data={countries}
             keyExtractor={(item) => item.alpha2Code}
             renderItem={renderCountry}

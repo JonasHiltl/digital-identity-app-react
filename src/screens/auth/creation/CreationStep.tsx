@@ -2,7 +2,7 @@ import React from 'react'
 import { TouchableOpacity, useWindowDimensions } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 
-import { Box, Text } from '../../../context/theme/theme'
+import { Box, Text, useTheme } from '../../../context/theme/theme'
 
 interface Props {
   title: string
@@ -17,13 +17,18 @@ const CreationStep: React.FC<Props> = ({
   children,
 }) => {
   const { width } = useWindowDimensions()
+  const theme = useTheme()
 
   return (
     <Box width={width} padding="m">
       {goBack ? (
         <TouchableOpacity onPress={goBack}>
           <Box flexDirection="row" alignItems="center">
-            <Ionicons name="arrow-back" size={20} />
+            <Ionicons
+              name="arrow-back"
+              size={20}
+              style={{ color: theme.colors.fontHeader }}
+            />
             <Text>Back</Text>
           </Box>
         </TouchableOpacity>
