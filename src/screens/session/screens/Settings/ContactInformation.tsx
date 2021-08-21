@@ -21,7 +21,7 @@ const ContactInformation = () => {
           onChange={(text) => console.log(text)}
         />
       </Box>
-      <FlatButton label="Save" onPress={() => {}} />
+      <FlatButton label={i18n.t('save')} onPress={() => {}} />
     </Box>
   )
 }

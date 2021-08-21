@@ -58,7 +58,7 @@ const PersonalData = () => {
           keyboardType="numeric"
         />
       </Box>
-      <FlatButton label="save" onPress={() => {}} />
+      <FlatButton label={i18n.t('save')} onPress={() => {}} />
     </Box>
   )
 }

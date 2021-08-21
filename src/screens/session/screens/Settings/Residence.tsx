@@ -1,4 +1,5 @@
 import React from 'react'
+import { FlatButton } from '../../../../components/custom_comps/Button'
 import CountryPicker from '../../../../components/custom_comps/CountryPicker'
 import Input from '../../../../components/custom_comps/Input'
 import { Box } from '../../../../context/theme/theme'
@@ -12,7 +13,6 @@ const Residence = () => {
           label={i18n.t('creation.streetNumber')}
           placeholder={i18n.t('creation.streetNumber')}
           onChange={(text) => console.log(text)}
-          keyboardType="numeric"
         />
         <Box flexDirection="row">
           <Box flex={1} marginRight="m">
@@ -28,7 +28,6 @@ const Residence = () => {
               label={i18n.t('creation.city')}
               placeholder={i18n.t('creation.city')}
               onChange={(text) => console.log(text)}
-              keyboardType="numeric"
             />
           </Box>
         </Box>
@@ -38,7 +37,6 @@ const Residence = () => {
               label={i18n.t('creation.state')}
               placeholder={i18n.t('creation.state')}
               onChange={(text) => console.log(text)}
-              keyboardType="numeric"
             />
           </Box>
           <Box flex={1}>
@@ -52,6 +50,7 @@ const Residence = () => {
           </Box>
         </Box>
       </Box>
+      <FlatButton label={i18n.t('save')} onPress={() => {}} />
     </Box>
   )
 }
