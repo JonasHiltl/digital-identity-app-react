@@ -24,7 +24,11 @@ import CountryUtils from '../../../utils/countryUtils'
 // import DIDUtils from '../../../utils/didUtils'
 import { Country } from '../../../types'
 import i18n from '../../../i18n'
-import AuthContext from '../../../context/auth/AuthContext'
+import AuthContext, { useAuth } from '../../../context/auth/AuthContext'
+import DIDUtils from '../../../utils/didUtils'
+import JWTUtils from '../../../utils/jwtUtils'
+import PersonalDataUtils from '../../../utils/personalData'
+import { usePersonalData } from '../../../context/personalData/PersonalDataContext'
 
 const Creation = ({
   navigation,
@@ -36,7 +40,10 @@ const Creation = ({
   const scrollRef = useAnimatedRef<Animated.ScrollView>()
   const translationX = useSharedValue(0)
   const [currentIndex, setCurrentIndex] = useState(0)
+  const [loading, setLoading] = useState(false)
   const [displayedCountry, setDisplayedCountry] = useState<Country | null>(null)
+  const { login } = useAuth()
+  const { setCredential } = usePersonalData()
 
   const [formData, setFormData] = useState({
     firstName: '',
@@ -92,6 +99,27 @@ const Creation = ({
     setCurrentIndex(index)
   }
 
+  const createDid = async () => {
+    setLoading(true)
+    const did = await DIDUtils.create()
+    const jwt = await JWTUtils.create(did.id, did.key.secret, did.key.public)
+    const personalDataVc = await PersonalDataUtils.create(
+      jwt,
+      firstName,
+      lastName,
+      sex,
+      dateOfBirth,
+      streetNumber,
+      postalCode,
+      city,
+      state,
+      country,
+    )
+    setCredential(personalDataVc)
+    login(did, jwt)
+    setLoading(false)
+  }
+
   const scrollHandler = useAnimatedScrollHandler((event) => {
     translationX.value = event.contentOffset.x
     if (event.contentOffset.x < width * 0.5 && currentIndex != 0) {
@@ -107,15 +135,16 @@ const Creation = ({
     }
   })
 
-  const getCountryByCode = async (code: string) => {
-    const loadedCountry = await CountryUtils.getCountryByCode(code)
-    setDisplayedCountry(loadedCountry)
-  }
-
   useEffect(() => {
     let isMounted = true
+    console.log('Creation is mounted')
+    const getCountryByCode = async (code: string) => {
+      const loadedCountry = await CountryUtils.getCountryByCode(code)
+      setDisplayedCountry(loadedCountry)
+    }
     getCountryByCode(country)
     return () => {
+      console.log('Creation is unmounted')
       isMounted = false
     }
   }, [country])
@@ -245,15 +274,17 @@ const Creation = ({
           </Animated.ScrollView>
           <Box margin="m">
             <FlatButton
+              loading={loading}
               label={i18n.t('next')}
               disabled={
+                loading ||
                 (currentIndex == 0 && (!firstName || !lastName)) ||
                 (currentIndex == 1 &&
                   (!dateOfBirth || !sex || dateOfBirth.length < 10)) ||
                 (currentIndex == 2 &&
                   (!streetNumber || !postalCode || !city || !state || !country))
               }
-              onPress={() => {
+              onPress={async () => {
                 if (currentIndex == 0) {
                   scrollRef.current
                     ?.getNode()
@@ -261,6 +292,7 @@ const Creation = ({
                 } else if (currentIndex == 1) {
                   scrollRef.current?.getNode().scrollToEnd({ animated: true })
                 } else {
+                  createDid()
                 }
               }}
             />

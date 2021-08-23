@@ -36,7 +36,7 @@ const Input: React.FC<Props> = ({
         paddingHorizontal="inputM"
         borderRadius="s"
         borderWidth={2}
-        backgroundColor={errorMessage ? 'inputErrorBG' : 'inputBG'}
+        backgroundColor=/* {errorMessage ? 'inputErrorBG' :  */'inputBG'/* } */
       >
         {variant === 'date' ? (
           // @ts-ignore

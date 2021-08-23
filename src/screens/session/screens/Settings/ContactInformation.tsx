@@ -10,13 +10,13 @@ const ContactInformation = () => {
       <Box>
         <Input
           label={i18n.t('settings.email')}
-          value="jonashiltl2003@gmail.com"
+          value=""
           placeholder={i18n.t('settings.email')}
           onChange={(text) => console.log(text)}
         />
         <Input
           label={i18n.t('settings.phoneNumber')}
-          value="017636949666"
+          value=""
           placeholder={i18n.t('settings.phoneNumber')}
           onChange={(text) => console.log(text)}
         />

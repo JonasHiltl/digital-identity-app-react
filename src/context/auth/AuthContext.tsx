@@ -5,7 +5,7 @@ export type ContextType = {
   isAuthenticated: boolean
   jwt: string
   logout: () => void
-  login: (did: DID) => void
+  login: (did: DID, jwt: string) => void
   did: DID | null
 }
 

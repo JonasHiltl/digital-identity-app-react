@@ -1,11 +1,14 @@
-import { EdDSASigner, createJWT } from 'did-jwt'
+import { EdDSASigner, createJWT, Signer } from 'did-jwt'
+import { decode } from 'bs58'
 
 class JWTUtils {
-  static async create(id: string, secretKey: string, publicKey: string) {
-    const signer = EdDSASigner(secretKey + publicKey)
+  static async create(id: string, secretBs58: string, publicBs58: string) {
+    const secretKey = decode(secretBs58)
+    const publicKey = decode(publicBs58)
+    const combinedKey = Buffer.concat([secretKey, publicKey])
+    const signer: Signer = EdDSASigner(combinedKey)
 
     const jwt = await createJWT({}, { issuer: id, signer }, { alg: 'EdDSA' })
-    console.log(jwt)
     return jwt
   }
 }

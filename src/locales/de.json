@@ -53,5 +53,9 @@
     "darkMode": "Dunkelmodus",
     "email": "E-Mail",
     "phoneNumber": "Telefonnummer"
+  },
+  "messages": {
+    "valueEmpty": "Darf nicht leer sein",
+    "invalid": "Eingabe ungültig"
   }
 }

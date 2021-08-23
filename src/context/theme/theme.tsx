@@ -22,6 +22,7 @@ export const palette = {
   darkBackground: '#010409',
   darkInputBlurBorder: 'rgba(255,255,255,0.1)',
   darkInputBG: '#262837',
+  darkDisabledButtonBG: 'rgba(256,256,256,0.03)',
   darkDisabledButtonBorder: 'rgba(255,255,255,0.1)',
   darkbackgroundAccent: 'rgb(13, 17, 23)',
   darkIconInactive: 'rgba(256,256,256,0.3)',
@@ -32,9 +33,9 @@ export const palette = {
   fontDarkest: '#07090D',
   fontDarkSubheader: '#5d6579',
   lightBackground: '#f7fbff',
-  disabledGray: 'rgba(48,55,121,0.1)',
   lightInputBlurBorder: 'rgba(48,55,121,0.2)',
   lightInputBG: '#f1f3fd',
+  lightDisabledButtonBG: 'rgba(48,55,121,0.1)',
   lightDisabledButtonBorder: '#D9D9D9',
   lightIcon: '#0B0C10',
   lightIconInactive: 'rgba(48,55,121,0.3)',
@@ -55,7 +56,7 @@ export const lightTheme = createTheme({
     black: palette.black,
 
     buttonPrimaryBackground: palette.primary,
-    buttonDisabled: palette.disabledGray,
+    buttonDisabled: palette.lightDisabledButtonBG,
     buttonDisabledBorder: palette.lightDisabledButtonBorder,
 
     fontHeader: palette.fontDarkest,
@@ -195,6 +196,7 @@ export const darkTheme: Theme = createTheme({
     mainForeground: palette.fontLightest,
     cardPrimaryBackground: palette.darkBackground,
 
+    buttonDisabled: palette.darkDisabledButtonBG,
     buttonDisabledBorder: palette.darkDisabledButtonBorder,
 
     fontHeader: palette.fontLightest,

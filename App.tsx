@@ -4,13 +4,19 @@ import { QueryClient, QueryClientProvider } from 'react-query'
 
 import { CustomThemeProvider } from './src/context/theme/CustomThemeProvider'
 import Navigation from './src/screens/session/Navigation'
-import { ActivityIndicator, LogBox } from 'react-native'
+import { LogBox } from 'react-native'
 import AuthNavigation from './src/screens/auth/AuthNavigation'
-import { DID } from './src/types'
+import { DID, PersonalDataCredential } from './src/types'
 import SecureStorage from './src/utils/secureStorage'
 import AuthContext from './src/context/auth/AuthContext'
 import Loading from './src/screens/Loading'
 import JWTUtils from './src/utils/jwtUtils'
+
+import 'fastestsmallesttextencoderdecoder'
+import { Buffer } from 'buffer'
+import PersonalDataContext from './src/context/personalData/PersonalDataContext'
+import CustomPersonalDataProvider from './src/context/personalData/CustomPersonalDataCredentialProvider'
+global.Buffer = Buffer
 
 LogBox.ignoreLogs([
   'ReactNativeFiberHostComponent: Calling getNode() on the ref of an Animated component is no longer necessary. You can now directly use the ref instead. This method will be removed in a future release.',
@@ -19,68 +25,69 @@ LogBox.ignoreLogs([
 const queryClient = new QueryClient()
 
 export default function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true)
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false)
   const [did, setDid] = useState<DID | null>(null)
-  const [isLoading, setLoading] = useState<boolean>(false)
+  const [isLoading, setLoading] = useState<boolean>(true)
   const [jwt, setJwt] = useState('')
 
   function logout() {
     setIsAuthenticated(false)
     setDid(null)
   }
-
-  function login(did: DID) {
+  function login(did: DID, jwt: string) {
     setIsAuthenticated(true)
+    setJwt(jwt)
     setDid(did)
   }
 
-  const providerAuth = useMemo(
+  const authProvider = useMemo(
     () => ({ isAuthenticated, logout, login, did, jwt }),
     [isAuthenticated, did, jwt],
   )
 
   useEffect(() => {
-    setLoading(true)
     let mounted = true
-
-    const getDid = async () => {
-      const didJson = await SecureStorage.get('did')
-      if (!didJson) {
-        return didJson
-      } else {
-        const did: DID = JSON.parse(didJson)
-        console.log(did)
-        const jwt = await JWTUtils.create(
-          did.id,
-          did.key.secret,
-          did.key.public,
-        )
-        setIsAuthenticated(true)
-        setDid(did)
-        setJwt(jwt)
-        return did
+    if (!isAuthenticated) {
+      const getDid = async () => {
+        /* await SecureStorage.delete('did')
+        await SecureStorage.delete('personal-data') */
+        const didJson = await SecureStorage.get('did')
+        if (didJson) {
+          const did: DID = JSON.parse(didJson)
+          const jwt = await JWTUtils.create(
+            did.id,
+            did.key.secret,
+            did.key.public,
+          )
+          setIsAuthenticated(true)
+          setDid(did)
+          setJwt(jwt)
+        }
       }
+      getDid().catch((error) => console.warn(error))
     }
 
-    getDid().catch(() => console.warn('Error validating stored did'))
     setLoading(false)
     return () => {
       mounted = false
     }
-  }, [])
+  }, [isAuthenticated])
+
   return (
     <QueryClientProvider client={queryClient}>
       <CustomThemeProvider>
-        <AuthContext.Provider value={providerAuth}>
-          <BottomSheetModalProvider>
-            {isLoading ? (
-              <Loading />
-            ) : isAuthenticated ? (
-              <Navigation />
-            ) : (
-              <AuthNavigation />
-            )}
-          </BottomSheetModalProvider>
+        <AuthContext.Provider value={authProvider}>
+          <CustomPersonalDataProvider>
+            <BottomSheetModalProvider>
+              {isLoading ? (
+                <Loading />
+              ) : isAuthenticated ? (
+                <Navigation />
+              ) : (
+                <AuthNavigation />
+              )}
+            </BottomSheetModalProvider>
+          </CustomPersonalDataProvider>
         </AuthContext.Provider>
       </CustomThemeProvider>
     </QueryClientProvider>

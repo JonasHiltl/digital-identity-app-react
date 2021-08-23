@@ -1,10 +1,8 @@
 import React from 'react'
-import { SafeAreaView } from 'react-native'
 
 import { Box, Text, useTheme } from '../../../context/theme/theme'
 
 const Home: React.FC = () => {
-  const theme = useTheme()
   return (
     <Box
       style={{
