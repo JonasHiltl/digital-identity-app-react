@@ -39,3 +39,8 @@ export interface PersonalDataCredential {
   issuanceDate: string
   proof: Proof
 }
+
+export interface Notification {
+  type: 'success' | 'error'
+  message: string
+}

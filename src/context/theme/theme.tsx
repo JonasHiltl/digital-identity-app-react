@@ -28,6 +28,10 @@ export const palette = {
   darkIconInactive: 'rgba(256,256,256,0.3)',
   darkDivider: 'rgb(48, 54, 61)',
   darkIcon: '#f2f2f2',
+  darkErrorNotiBG: '#4a1717',
+  darkErrorNotBorder: '#6f201d',
+  darkSuccessNotiBG: '#18381e',
+  darkSuccessNotiBorder: '#235129',
 
   // Light Mode Text:
   fontDarkest: '#07090D',
@@ -40,17 +44,23 @@ export const palette = {
   lightIcon: '#0B0C10',
   lightIconInactive: 'rgba(48,55,121,0.3)',
   lightDivider: '#A4A4A4',
+  lightErrorNotiBG: '#ffe4e4',
+  lightErrorNotiBorder: '#f6bbb9',
+  lightSuccessNotiBG: '#dcf8e7',
+  lightSuccessNotiBorder: '#bbe0c2',
 
   inputErrorBG: 'rgba(223,31,21,0.1)',
   black: '#000',
   white: '#FFF',
-  error: '#df1f15',
+  error: '#f44336',
+  success: '#4caf50',
 }
 
 export const lightTheme = createTheme({
   colors: {
     primary: palette.primary,
     error: palette.error,
+    success: palette.success,
 
     white: palette.white,
     black: palette.black,
@@ -70,6 +80,10 @@ export const lightTheme = createTheme({
     inputBlurColor: palette.lightInputBlurBorder,
     inputBG: palette.lightInputBG,
     inputErrorBG: palette.inputErrorBG,
+    notiErrorBG: palette.lightErrorNotiBG,
+    notiErrorBorder: palette.lightErrorNotiBorder,
+    notiSuccessBG: palette.lightSuccessNotiBG,
+    notiSuccessBorder: palette.lightSuccessNotiBorder,
 
     icon: palette.lightIcon,
     navigationIcon: palette.primary,
@@ -203,6 +217,10 @@ export const darkTheme: Theme = createTheme({
     fontSubheader: palette.fontLightSubheader,
     inputBlurColor: palette.darkInputBlurBorder,
     inputBG: palette.darkInputBG,
+    notiErrorBG: palette.darkErrorNotiBG,
+    notiErrorBorder: palette.darkErrorNotBorder,
+    notiSuccessBG: palette.darkSuccessNotiBG,
+    notiSuccessBorder: palette.darkSuccessNotiBorder,
 
     icon: palette.darkIcon,
     navigationIcon: palette.fontLightest,

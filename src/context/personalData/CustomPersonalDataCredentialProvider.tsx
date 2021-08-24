@@ -34,8 +34,6 @@ const CustomPersonalDataProvider: React.FC = ({ children }) => {
           const personalData: PersonalDataCredential =
             JSON.parse(personalDataJson)
           setPersonalData(personalData)
-          console.log('Personal Data set')
-          console.log(personalData.credentialSubject.firstName)
         }
       }
       getPersonalData().catch((error) => console.warn(error))

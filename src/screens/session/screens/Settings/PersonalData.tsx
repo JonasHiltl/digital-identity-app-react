@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react'
 import { FlatButton } from '../../../../components/custom_comps/Button'
 import Input from '../../../../components/custom_comps/Input'
 import RadioGroup from '../../../../components/custom_comps/RadioGroup'
+import useNotification from '../../../../context/notifications/NotificationsContext'
 import { usePersonalData } from '../../../../context/personalData/PersonalDataContext'
 import { Box } from '../../../../context/theme/theme'
 import i18n from '../../../../i18n'
 
 const PersonalData = () => {
+  const { addNotification } = useNotification()
   const { credential } = usePersonalData()
   const [personalDataForm, setPersonalDataForm] = useState({
     firstName: credential?.credentialSubject.firstName,
@@ -107,7 +109,9 @@ const PersonalData = () => {
         disabled={
           !firstName || !lastName || !dateOfBirth || dateOfBirth.length < 10
         }
-        onPress={() => {}}
+        onPress={() => {
+          addNotification({ type: 'error', message: 'Successfully updated' })
+        }}
       />
     </Box>
   )

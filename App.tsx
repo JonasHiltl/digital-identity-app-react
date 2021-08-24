@@ -6,7 +6,7 @@ import { CustomThemeProvider } from './src/context/theme/CustomThemeProvider'
 import Navigation from './src/screens/session/Navigation'
 import { LogBox } from 'react-native'
 import AuthNavigation from './src/screens/auth/AuthNavigation'
-import { DID, PersonalDataCredential } from './src/types'
+import { DID } from './src/types'
 import SecureStorage from './src/utils/secureStorage'
 import AuthContext from './src/context/auth/AuthContext'
 import Loading from './src/screens/Loading'
@@ -14,10 +14,10 @@ import JWTUtils from './src/utils/jwtUtils'
 
 import 'fastestsmallesttextencoderdecoder'
 import { Buffer } from 'buffer'
-import PersonalDataContext from './src/context/personalData/PersonalDataContext'
 import CustomPersonalDataProvider from './src/context/personalData/CustomPersonalDataCredentialProvider'
-global.Buffer = Buffer
+import NotificationsProvider from './src/context/notifications/NotificationsProvider'
 
+global.Buffer = Buffer
 LogBox.ignoreLogs([
   'ReactNativeFiberHostComponent: Calling getNode() on the ref of an Animated component is no longer necessary. You can now directly use the ref instead. This method will be removed in a future release.',
 ])
@@ -78,15 +78,17 @@ export default function App() {
       <CustomThemeProvider>
         <AuthContext.Provider value={authProvider}>
           <CustomPersonalDataProvider>
-            <BottomSheetModalProvider>
-              {isLoading ? (
-                <Loading />
-              ) : isAuthenticated ? (
-                <Navigation />
-              ) : (
-                <AuthNavigation />
-              )}
-            </BottomSheetModalProvider>
+            <NotificationsProvider>
+              <BottomSheetModalProvider>
+                {isLoading ? (
+                  <Loading />
+                ) : isAuthenticated ? (
+                  <Navigation />
+                ) : (
+                  <AuthNavigation />
+                )}
+              </BottomSheetModalProvider>
+            </NotificationsProvider>
           </CustomPersonalDataProvider>
         </AuthContext.Provider>
       </CustomThemeProvider>
