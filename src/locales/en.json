@@ -54,8 +54,18 @@
     "email": "Email",
     "phoneNumber": "Phone Number"
   },
-  "messages": {
+  "inputFeedback": {
     "valueEmpty": "Can't be empty",
     "invalid": "Input invalid"
+  },
+  "notifications": {
+    "success": {
+      "personalDataUpdate": "Personal Data updated",
+      "residenceUpdate": "Residential Address updated"
+    },
+    "error": {
+      "personalDataUpdate": "Personal Data update failed",
+      "residenceUpdate": "Residential Address update failed"
+    }
   }
 }

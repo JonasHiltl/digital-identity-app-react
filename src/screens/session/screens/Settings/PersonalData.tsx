@@ -64,11 +64,14 @@ const PersonalData = () => {
         country,
       )
       setCredential(personalDataVc)
-      addNotification({ type: 'success', message: 'Successfully updated' })
+      addNotification({
+        type: 'success',
+        message: i18n.t('notifications.success.personalDataUpdate'),
+      })
     } else {
       addNotification({
         type: 'error',
-        message: 'Error updating Personal Data',
+        message: i18n.t('notifications.error.personalDataUpdate'),
       })
     }
     setLoading(false)
@@ -84,7 +87,7 @@ const PersonalData = () => {
               value={firstName}
               placeholder={i18n.t('creation.firstName')}
               errorMessage={
-                !firstName ? i18n.t('messages.valueEmpty') : undefined
+                !firstName ? i18n.t('inputFeedback.valueEmpty') : undefined
               }
               onChange={(text) =>
                 setPersonalDataForm({ ...personalDataForm, firstName: text })
@@ -97,7 +100,7 @@ const PersonalData = () => {
               value={lastName}
               placeholder={i18n.t('creation.lastName')}
               errorMessage={
-                !lastName ? i18n.t('messages.valueEmpty') : undefined
+                !lastName ? i18n.t('inputFeedback.valueEmpty') : undefined
               }
               onChange={(text) =>
                 setPersonalDataForm({ ...personalDataForm, lastName: text })
@@ -133,9 +136,9 @@ const PersonalData = () => {
           placeholder={i18n.t('creation.dateOfBirth')}
           errorMessage={
             !dateOfBirth
-              ? i18n.t('messages.valueEmpty')
+              ? i18n.t('inputFeedback.valueEmpty')
               : dateOfBirth.length < 10
-              ? i18n.t('messages.invalid')
+              ? i18n.t('inputFeedback.invalid')
               : undefined
           }
           onChange={(text) =>

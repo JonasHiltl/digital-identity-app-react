@@ -2,14 +2,20 @@ import React, { useState, useEffect } from 'react'
 import { FlatButton } from '../../../../components/custom_comps/Button'
 import CountryPicker from '../../../../components/custom_comps/CountryPicker'
 import Input from '../../../../components/custom_comps/Input'
+import { useAuth } from '../../../../context/auth/AuthContext'
+import useNotification from '../../../../context/notifications/NotificationsContext'
 import { usePersonalData } from '../../../../context/personalData/PersonalDataContext'
 import { Box } from '../../../../context/theme/theme'
 import i18n from '../../../../i18n'
 import { Country } from '../../../../types'
 import CountryUtils from '../../../../utils/countryUtils'
+import PersonalDataUtils from '../../../../utils/personalData'
 
 const Residence = () => {
-  const { credential } = usePersonalData()
+  const { addNotification } = useNotification()
+  const { jwt } = useAuth()
+  const { credential, setCredential } = usePersonalData()
+  const [loading, setLoading] = useState(false)
   const [residenceForm, setResidenceForm] = useState({
     firstName: credential?.credentialSubject.firstName,
     lastName: credential?.credentialSubject.lastName,
@@ -35,6 +41,45 @@ const Residence = () => {
     country,
   } = residenceForm
 
+  const updatePersonalData = async () => {
+    setLoading(true)
+    if (
+      firstName &&
+      lastName &&
+      sex &&
+      dateOfBirth &&
+      streetNumber &&
+      postalCode &&
+      city &&
+      state &&
+      country
+    ) {
+      const personalDataVc = await PersonalDataUtils.create(
+        jwt,
+        firstName,
+        lastName,
+        sex,
+        dateOfBirth,
+        streetNumber,
+        postalCode,
+        city,
+        state,
+        country,
+      )
+      setCredential(personalDataVc)
+      addNotification({
+        type: 'success',
+        message: i18n.t('notifications.success.residenceUpdate'),
+      })
+    } else {
+      addNotification({
+        type: 'error',
+        message: i18n.t('notifications.error.residenceUpdate'),
+      })
+    }
+    setLoading(false)
+  }
+
   useEffect(() => {
     let isMounted = true
     const getCountryByCode = async (code: string) => {
@@ -58,7 +103,7 @@ const Residence = () => {
             setResidenceForm({ ...residenceForm, streetNumber: text })
           }
           errorMessage={
-            !streetNumber ? i18n.t('messages.valueEmpty') : undefined
+            !streetNumber ? i18n.t('inputFeedback.valueEmpty') : undefined
           }
         />
         <Box flexDirection="row">
@@ -71,7 +116,7 @@ const Residence = () => {
                 setResidenceForm({ ...residenceForm, postalCode: text })
               }
               errorMessage={
-                !postalCode ? i18n.t('messages.valueEmpty') : undefined
+                !postalCode ? i18n.t('inputFeedback.valueEmpty') : undefined
               }
               keyboardType="numeric"
             />
@@ -84,7 +129,9 @@ const Residence = () => {
               onChange={(text) =>
                 setResidenceForm({ ...residenceForm, city: text })
               }
-              errorMessage={!city ? i18n.t('messages.valueEmpty') : undefined}
+              errorMessage={
+                !city ? i18n.t('inputFeedback.valueEmpty') : undefined
+              }
             />
           </Box>
         </Box>
@@ -97,7 +144,9 @@ const Residence = () => {
               onChange={(text) =>
                 setResidenceForm({ ...residenceForm, state: text })
               }
-              errorMessage={!state ? i18n.t('messages.valueEmpty') : undefined}
+              errorMessage={
+                !state ? i18n.t('inputFeedback.valueEmpty') : undefined
+              }
             />
           </Box>
           <Box flex={1}>
@@ -113,8 +162,13 @@ const Residence = () => {
       </Box>
       <FlatButton
         label={i18n.t('save')}
-        disabled={!streetNumber || !postalCode || !city || !state || !country}
-        onPress={() => {}}
+        loading={loading}
+        disabled={
+          loading || !streetNumber || !postalCode || !city || !state || !country
+        }
+        onPress={() => {
+          updatePersonalData()
+        }}
       />
     </Box>
   )

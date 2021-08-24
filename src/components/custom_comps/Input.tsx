@@ -32,7 +32,7 @@ const Input: React.FC<Props> = ({
       <Text variant="inputLabel">{label}</Text>
       <Box
         borderColor={errorMessage ? 'error' : focused ? 'primary' : 'inputBG'}
-        paddingVertical="inputS"
+        paddingVertical="m"
         paddingHorizontal="inputM"
         borderRadius="s"
         borderWidth={2}

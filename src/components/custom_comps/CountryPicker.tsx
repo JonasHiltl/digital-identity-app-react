@@ -36,7 +36,7 @@ const CountryPicker: React.FC<Props> = ({
 
   const [countries, setCountries] = useState<Country[]>([])
 
-  const snapPoints = useMemo(() => ['75%', '90%'], [])
+  const snapPoints = useMemo(() => ['50%', '80%'], [])
 
   const handlePresentModalPress = useCallback(() => {
     getAllCountries()
@@ -101,7 +101,7 @@ const CountryPicker: React.FC<Props> = ({
       <TouchableWithoutFeedback onPress={handlePresentModalPress}>
         <Text variant="inputLabel">{label}</Text>
         <Box
-          paddingVertical="inputS"
+          paddingVertical="m"
           paddingHorizontal="inputM"
           borderRadius="s"
           backgroundColor="inputBG"
@@ -133,12 +133,12 @@ const CountryPicker: React.FC<Props> = ({
         </Box>
       </TouchableWithoutFeedback>
       <BottomSheetModal
+        enableOverDrag={false}
         onDismiss={handleDismissModalPress}
         ref={bottomSheetModalRef}
         snapPoints={snapPoints}
-        handleIndicatorStyle={{ backgroundColor: theme.colors.mainForeground }}
-        handleStyle={{ backgroundColor: theme.colors.mainBackground }}
-        style={{
+        backgroundStyle={{
+          backgroundColor: theme.colors.mainBackground,
           borderTopLeftRadius: theme.borderRadii.l,
           borderTopRightRadius: theme.borderRadii.l,
           elevation: 5,
@@ -146,6 +146,9 @@ const CountryPicker: React.FC<Props> = ({
           shadowRadius: 8,
           shadowOpacity: 0.25,
           shadowOffset: { width: 0, height: 2 },
+        }}
+        handleIndicatorStyle={{
+          backgroundColor: theme.colors.mainForeground,
         }}
       >
         <Box paddingHorizontal="m" backgroundColor="mainBackground">
@@ -165,11 +168,5 @@ const CountryPicker: React.FC<Props> = ({
     </Box>
   )
 }
-
-const classes = StyleSheet.create({
-  placeholder: {
-    color: PlatformColor('placeholderText'),
-  },
-})
 
 export default CountryPicker

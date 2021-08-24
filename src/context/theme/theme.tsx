@@ -115,7 +115,6 @@ export const lightTheme = createTheme({
     },
   },
   spacing: {
-    inputS: 12,
     inputM: 20,
     xs: 4,
     s: 8,

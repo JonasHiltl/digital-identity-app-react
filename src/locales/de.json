@@ -54,8 +54,18 @@
     "email": "E-Mail",
     "phoneNumber": "Telefonnummer"
   },
-  "messages": {
+  "inputFeedback": {
     "valueEmpty": "Darf nicht leer sein",
     "invalid": "Eingabe ungültig"
+  },
+  "notifications": {
+    "success": {
+      "personalDataUpdate": "Persönliche Daten aktualisiert",
+      "residenceUpdate": "Wohnadresse aktualisiert"
+    },
+    "error": {
+      "personalDataUpdate": "Aktualisierung fehlgeschlagen",
+      "residenceUpdate": "Aktualisierung der Wohnadresse fehlgeschlagen"
+    }
   }
 }
