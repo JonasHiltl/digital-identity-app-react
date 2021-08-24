@@ -28,7 +28,7 @@ const RadioGroup: React.FC<Props> = ({
               flex={1}
               backgroundColor="inputBG"
               padding="m"
-              borderRadius="m"
+              borderRadius="s"
               marginRight={index == buttons.length - 1 ? undefined : 'm'}
               marginBottom={
                 flexDireaction == 'column' || flexDireaction == 'column-reverse'

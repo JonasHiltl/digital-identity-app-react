@@ -2,14 +2,18 @@ import React, { useState, useEffect } from 'react'
 import { FlatButton } from '../../../../components/custom_comps/Button'
 import Input from '../../../../components/custom_comps/Input'
 import RadioGroup from '../../../../components/custom_comps/RadioGroup'
+import { useAuth } from '../../../../context/auth/AuthContext'
 import useNotification from '../../../../context/notifications/NotificationsContext'
 import { usePersonalData } from '../../../../context/personalData/PersonalDataContext'
 import { Box } from '../../../../context/theme/theme'
 import i18n from '../../../../i18n'
+import PersonalDataUtils from '../../../../utils/personalData'
 
 const PersonalData = () => {
   const { addNotification } = useNotification()
-  const { credential } = usePersonalData()
+  const { jwt } = useAuth()
+  const { credential, setCredential } = usePersonalData()
+  const [loading, setLoading] = useState(false)
   const [personalDataForm, setPersonalDataForm] = useState({
     firstName: credential?.credentialSubject.firstName,
     lastName: credential?.credentialSubject.lastName,
@@ -33,6 +37,42 @@ const PersonalData = () => {
     state,
     country,
   } = personalDataForm
+
+  const updatePersonalData = async () => {
+    setLoading(true)
+    if (
+      firstName &&
+      lastName &&
+      sex &&
+      dateOfBirth &&
+      streetNumber &&
+      postalCode &&
+      city &&
+      state &&
+      country
+    ) {
+      const personalDataVc = await PersonalDataUtils.create(
+        jwt,
+        firstName,
+        lastName,
+        sex,
+        dateOfBirth,
+        streetNumber,
+        postalCode,
+        city,
+        state,
+        country,
+      )
+      setCredential(personalDataVc)
+      addNotification({ type: 'success', message: 'Successfully updated' })
+    } else {
+      addNotification({
+        type: 'error',
+        message: 'Error updating Personal Data',
+      })
+    }
+    setLoading(false)
+  }
 
   return (
     <Box flex={1} padding="m" justifyContent="space-between">
@@ -107,10 +147,15 @@ const PersonalData = () => {
       <FlatButton
         label={i18n.t('save')}
         disabled={
-          !firstName || !lastName || !dateOfBirth || dateOfBirth.length < 10
+          loading ||
+          !firstName ||
+          !lastName ||
+          !dateOfBirth ||
+          dateOfBirth.length < 10
         }
+        loading={loading}
         onPress={() => {
-          addNotification({ type: 'success', message: 'Successfully updated' })
+          updatePersonalData()
         }}
       />
     </Box>

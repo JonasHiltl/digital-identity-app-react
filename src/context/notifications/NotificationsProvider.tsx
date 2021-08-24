@@ -27,7 +27,7 @@ const DisplayNotification: React.FC<NotificationProps> = ({
         duration: 300,
         useNativeDriver: true,
       }),
-      Animated.delay(2000),
+      Animated.delay(1500),
       Animated.timing(opacity, {
         toValue: 0,
         duration: 300,
@@ -50,17 +50,18 @@ const DisplayNotification: React.FC<NotificationProps> = ({
             }),
           },
         ],
+        position: 'absolute',
+        zIndex: 2,
+        right: 0,
+        left: 0,
         flexDirection: 'row',
         alignItems: 'center',
-        marginHorizontal: theme.spacing.m,
-        marginBottom: theme.spacing.s,
         backgroundColor:
           type === 'success'
             ? theme.colors.notiSuccessBG
             : theme.colors.notiErrorBG,
-        paddingVertical: theme.spacing.s,
+        paddingVertical: theme.spacing.m,
         paddingHorizontal: theme.spacing.m,
-        borderRadius: theme.borderRadii.xs,
         borderWidth: 1,
         borderColor:
           type === 'success'
@@ -68,19 +69,25 @@ const DisplayNotification: React.FC<NotificationProps> = ({
             : theme.colors.notiErrorBorder,
       }}
     >
-      <Ionicons
-        size={18}
-        name={type === 'success' ? 'checkmark-circle' : 'close-circle'}
-        color={type === 'success' ? theme.colors.success : theme.colors.error}
-      />
-      <Text
-        marginLeft="xs"
-        color={
-          type === 'success' ? 'success' : type === 'error' ? 'error' : 'white'
-        }
-      >
-        {message}
-      </Text>
+      <SafeAreaView style={{ flexDirection: 'row' }}>
+        <Ionicons
+          size={18}
+          name={type === 'success' ? 'checkmark-circle' : 'close-circle'}
+          color={type === 'success' ? theme.colors.success : theme.colors.error}
+        />
+        <Text
+          marginLeft="xs"
+          color={
+            type === 'success'
+              ? 'success'
+              : type === 'error'
+              ? 'error'
+              : 'white'
+          }
+        >
+          {message}
+        </Text>
+      </SafeAreaView>
     </Animated.View>
   )
 }
@@ -100,31 +107,21 @@ const NotificationsProvider: React.FC = ({ children }) => {
 
   return (
     <NotificationContext.Provider value={notificationProvider}>
-      <SafeAreaView
-        style={{
-          position: 'absolute',
-          zIndex: 2,
-          right: 0,
-          left: 0,
-          top: theme.spacing.m,
-        }}
-      >
-        {notifications.map((notification, index) => (
-          <DisplayNotification
-            key={`${notification.message}${index}`}
-            message={notification.message}
-            type={notification.type}
-            onHide={() => {
-              setNotifications((notifications) =>
-                notifications.filter(
-                  (currentNotification) =>
-                    currentNotification.message !== notification.message,
-                ),
-              )
-            }}
-          />
-        ))}
-      </SafeAreaView>
+      {notifications.map((notification, index) => (
+        <DisplayNotification
+          key={`${notification.message}${index}`}
+          message={notification.message}
+          type={notification.type}
+          onHide={() => {
+            setNotifications((notifications) =>
+              notifications.filter(
+                (currentNotification) =>
+                  currentNotification.message !== notification.message,
+              ),
+            )
+          }}
+        />
+      ))}
       {children}
     </NotificationContext.Provider>
   )
