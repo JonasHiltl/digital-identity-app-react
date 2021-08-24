@@ -1,14 +1,14 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
-import { Box, Text, useTheme } from '../../context/theme/theme'
+import { Text, useTheme } from '../../context/theme/theme'
 import { Animated } from 'react-native'
 import { Notification } from '../../types'
 import { NotificationContext } from './NotificationsContext'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { ThemeProvider } from '@react-navigation/native'
+import { Ionicons } from '@expo/vector-icons'
 
 interface NotificationProps {
   message: string
-  type: 'success' | 'error' | 'warning'
+  type: 'success' | 'error'
   onHide: () => void
 }
 
@@ -50,26 +50,31 @@ const DisplayNotification: React.FC<NotificationProps> = ({
             }),
           },
         ],
+        flexDirection: 'row',
+        alignItems: 'center',
         marginHorizontal: theme.spacing.m,
         marginBottom: theme.spacing.s,
         backgroundColor:
           type === 'success'
             ? theme.colors.notiSuccessBG
-            : type === 'error'
-            ? theme.colors.notiErrorBG
-            : 'white',
-        padding: 8,
-        borderRadius: 4,
+            : theme.colors.notiErrorBG,
+        paddingVertical: theme.spacing.s,
+        paddingHorizontal: theme.spacing.m,
+        borderRadius: theme.borderRadii.xs,
         borderWidth: 1,
         borderColor:
           type === 'success'
             ? theme.colors.notiSuccessBorder
-            : type === 'error'
-            ? theme.colors.notiErrorBorder
-            : 'white',
+            : theme.colors.notiErrorBorder,
       }}
     >
+      <Ionicons
+        size={18}
+        name={type === 'success' ? 'checkmark-circle' : 'close-circle'}
+        color={type === 'success' ? theme.colors.success : theme.colors.error}
+      />
       <Text
+        marginLeft="xs"
         color={
           type === 'success' ? 'success' : type === 'error' ? 'error' : 'white'
         }

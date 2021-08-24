@@ -110,7 +110,7 @@ const PersonalData = () => {
           !firstName || !lastName || !dateOfBirth || dateOfBirth.length < 10
         }
         onPress={() => {
-          addNotification({ type: 'error', message: 'Successfully updated' })
+          addNotification({ type: 'success', message: 'Successfully updated' })
         }}
       />
     </Box>
