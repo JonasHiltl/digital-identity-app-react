@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { PersonalDataCredential } from '../types'
+import api from './axios'
 import SecureStorage from './secureStorage'
 
 class PersonalDataUtils {
@@ -29,11 +30,7 @@ class PersonalDataUtils {
       postalCode: postalCode.trim(),
       country: country.trim(),
     }
-    const res = await axios.post(
-      'https://digital-identity-nestjs.herokuapp.com/personal-data/create/',
-      body,
-      config,
-    )
+    const res = await api.post('/personal-data/create/', body, config)
     const credential: PersonalDataCredential = res.data
     SecureStorage.save('personal-data', JSON.stringify(credential))
     return credential

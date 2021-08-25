@@ -5,6 +5,11 @@ export interface Country {
   alpha2Code: string
 }
 
+export interface Notification {
+  type: 'success' | 'error'
+  message: string
+}
+
 export interface DID {
   id: string
   created: string
@@ -40,7 +45,17 @@ export interface PersonalDataCredential {
   proof: Proof
 }
 
-export interface Notification {
-  type: 'success' | 'error'
-  message: string
+interface ContactInformation {
+  email: string
+  phoneNumber: string
+}
+
+export interface ContactInformationCredential {
+  context: string
+  id: string
+  type: string[]
+  credentialSubject: ContactInformation
+  issuer: string
+  issuanceDate: string
+  proof: Proof
 }

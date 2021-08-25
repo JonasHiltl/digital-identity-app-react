@@ -5,6 +5,7 @@ import Paper from '../../../../../components/custom_comps/paper'
 import { Box, Text, useTheme } from '../../../../../context/theme/theme'
 import i18n from '../../../../../i18n'
 import { TouchableOpacity } from '@gorhom/bottom-sheet'
+import { useContactInformation } from '../../../../../context/contactInformation/ContactInformation'
 
 interface Props {
   onPersonalPress: () => void
@@ -18,6 +19,7 @@ const Profile: React.FC<Props> = ({
   onPersonalPress,
 }) => {
   const theme = useTheme()
+  const { contactCredential } = useContactInformation()
 
   return (
     <Box marginBottom="m">
@@ -88,7 +90,11 @@ const Profile: React.FC<Props> = ({
                 {i18n.t('settings.contactInformation')}
               </Text>
             </Box>
-            <MaterialIcons name="add" size={22} color={theme.colors.icon} />
+            <MaterialIcons
+              name={contactCredential === null ? 'add' : 'keyboard-arrow-right'}
+              size={22}
+              color={theme.colors.icon}
+            />
           </Box>
         </TouchableOpacity>
       </Paper>

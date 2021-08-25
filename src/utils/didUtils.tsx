@@ -11,6 +11,14 @@ import axios from 'axios'
 import { DID } from '../types'
 import SecureStorage from './secureStorage'
 import CLIENT_CONFIG from '../config'
+import {
+  KeyPair,
+  KeyType,
+  Document,
+  Config,
+  Network,
+  Client,
+} from '@iota/identity-wasm/node'
 
 class DIDUtils {
   /* static async create() {

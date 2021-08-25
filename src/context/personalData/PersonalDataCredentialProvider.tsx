@@ -4,7 +4,7 @@ import SecureStorage from '../../utils/secureStorage'
 import { useAuth } from '../auth/AuthContext'
 import PersonalDataContext from './PersonalDataContext'
 
-const CustomPersonalDataProvider: React.FC = ({ children }) => {
+const PersonalDataProvider: React.FC = ({ children }) => {
   const [personalData, setPersonalData] =
     useState<PersonalDataCredential | null>(null)
   const { isAuthenticated } = useAuth()
@@ -51,4 +51,4 @@ const CustomPersonalDataProvider: React.FC = ({ children }) => {
   )
 }
 
-export default CustomPersonalDataProvider
+export default PersonalDataProvider

@@ -1323,10 +1323,10 @@
   dependencies:
     "@hapi/hoek" "^8.3.0"
 
-"@iota/identity-wasm@^0.3.6":
-  version "0.3.6"
-  resolved "https://registry.yarnpkg.com/@iota/identity-wasm/-/identity-wasm-0.3.6.tgz#14b7b8813199237c0e3faaac937147cc9209b0c2"
-  integrity sha512-4WTacaTkz5loaDyN+sLvq7UQSOCDKlmbtT1g6zwKnA426UQO3ik/OQ0IJaVwcSNR3xK3rimzZVwz9iLjGqUwng==
+"@iota/identity-wasm@^0.3.7":
+  version "0.3.7"
+  resolved "https://registry.yarnpkg.com/@iota/identity-wasm/-/identity-wasm-0.3.7.tgz#f42d0b9ee57a60ba7111ee3dfa8c4b8e1cb44fbd"
+  integrity sha512-pzN2CXGgYpKaX6iUB2U95ImiWeSeAVFgP99/UnVgHHNoB7lDQucFmbTS2o1i762y10kgSLj5Cda02K7xEYX2AA==
   dependencies:
     node-fetch "^2.6.0"
 

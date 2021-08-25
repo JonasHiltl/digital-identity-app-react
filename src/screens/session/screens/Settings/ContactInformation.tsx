@@ -1,19 +1,32 @@
 import React, { useCallback, useRef, useState, useEffect } from 'react'
 import { BottomSheetModal } from '@gorhom/bottom-sheet'
+import { Ionicons } from '@expo/vector-icons'
 
 import { FlatButton } from '../../../../components/custom_comps/Button'
 import Input from '../../../../components/custom_comps/Input'
-import { Box } from '../../../../context/theme/theme'
+import { Box, useTheme } from '../../../../context/theme/theme'
 import i18n from '../../../../i18n'
 import { generate4DigitString, validateEmail } from '../../../../utils/common'
 import OTPverification from './components/OTPverification'
+import useNotification from '../../../../context/notifications/NotificationsContext'
+import ContactInformationUtils from '../../../../utils/contactInformation'
+import { useAuth } from '../../../../context/auth/AuthContext'
+import api from '../../../../utils/axios'
+import { useContactInformation } from '../../../../context/contactInformation/ContactInformation'
 
 const ContactInformation = () => {
+  const theme = useTheme()
+  const { addNotification } = useNotification()
+  const { contactCredential, setCredential } = useContactInformation()
+  const { jwt } = useAuth()
+  const [loading, setLoading] = useState<boolean>(false)
+  const [smsConfirmed, setSmsConfirmed] = useState<boolean>(false)
+  const [emailConfirmed, setEmailConfirmed] = useState<boolean>(false)
   const [generatedEmailCode, setGeneratedEmailCode] = useState<string>('')
   const [generatedPhoneCode, setGeneratedPhoneCode] = useState<string>('')
   const [contactInformation, setContactInformation] = useState({
-    email: '',
-    phoneNumber: '',
+    email: contactCredential?.credentialSubject.email ?? '',
+    phoneNumber: contactCredential?.credentialSubject.phoneNumber ?? '',
   })
   const { email, phoneNumber } = contactInformation
 
@@ -38,22 +51,120 @@ const ContactInformation = () => {
   }, [])
 
   const compareEmailCodes = () => {
-    console.log(generatedEmailCode)
-    console.log(emailCode)
     if (generatedEmailCode === emailCode) {
-      console.log('Email codes are valid')
+      setEmailConfirmed(true)
+      addNotification({
+        type: 'success',
+        message:
+          contactCredential !== null
+            ? i18n.t('notifications.success.newEmailConfirmed')
+            : i18n.t('notifications.success.emailConfirmed'),
+      })
+      closeEmailSheet()
+    } else {
+      addNotification({
+        type: 'error',
+        message: i18n.t('notifications.error.emailConfirmed'),
+      })
     }
   }
   const comparePhoneCodes = () => {
     if (generatedPhoneCode === phoneCode) {
-      console.log('Phone codes are valid')
+      setSmsConfirmed(true)
+      addNotification({
+        type: 'success',
+        message:
+          contactCredential !== null
+            ? i18n.t('notifications.success.newPhoneConfirmed')
+            : i18n.t('notifications.success.phoneConfirmed'),
+      })
+      closePhoneSheet()
+    } else {
+      addNotification({
+        type: 'error',
+        message: i18n.t('notifications.error.phoneConfirmed'),
+      })
     }
   }
 
+  const sendEmail = async () => {
+    try {
+      const body = {
+        email: email.trim(),
+        code: generatedEmailCode,
+      }
+      const res = await api.post('/contact-information/send-email', body)
+      if (res.status === 201) {
+        addNotification({
+          type: 'success',
+          message: i18n.t('notifications.success.emailSent'),
+        })
+      }
+    } catch (error) {
+      addNotification({
+        type: 'error',
+        message: i18n.t('notifications.error.emailSent'),
+      })
+    }
+  }
+
+  const sendSMS = async () => {
+    try {
+      const body = {
+        phoneNumber: phoneNumber.trim(),
+        code: generatedEmailCode,
+      }
+      const res = await api.post('/contact-information/send-sms', body)
+      if (res.status === 201) {
+        addNotification({
+          type: 'success',
+          message: i18n.t('notifications.success.smsSent'),
+        })
+      }
+    } catch (error) {
+      addNotification({
+        type: 'error',
+        message: i18n.t('notifications.error.smsSent'),
+      })
+    }
+  }
+
+  const createContactInformation = async () => {
+    setLoading(true)
+    try {
+      const credential = await ContactInformationUtils.create(
+        jwt,
+        email,
+        phoneNumber,
+      )
+      setCredential(credential)
+      addNotification({
+        type: 'success',
+        message:
+          contactCredential !== null
+            ? i18n.t('notifications.success.contactInformationUpdated')
+            : i18n.t('notifications.success.contactInformationCreated'),
+      })
+    } catch (error) {
+      addNotification({
+        type: 'error',
+        message:
+          contactCredential !== null
+            ? i18n.t('notifications.error.contactInformationUpdated')
+            : i18n.t('notifications.error.contactInformationCreated'),
+      })
+    }
+    setLoading(false)
+  }
+
   useEffect(() => {
-    console.log('generating')
-    setGeneratedPhoneCode(generate4DigitString())
-    setGeneratedEmailCode(generate4DigitString())
+    const smsCode = generate4DigitString()
+    const emailCode = generate4DigitString()
+    setGeneratedPhoneCode(smsCode)
+    setGeneratedEmailCode(emailCode)
+
+    console.log(`SMS Code: ${smsCode}`)
+    console.log(`Email Code: ${emailCode}`)
   }, [])
 
   return (
@@ -65,17 +176,34 @@ const ContactInformation = () => {
               label={i18n.t('settings.email')}
               value={email}
               placeholder={i18n.t('settings.email')}
-              onChange={(text) =>
-                setContactInformation({ ...contactInformation, email: text })
+              onChange={(text) => {
+                if (!emailConfirmed)
+                  setContactInformation({ ...contactInformation, email: text })
+              }}
+              prefix={
+                emailConfirmed ||
+                contactCredential?.credentialSubject.email === email ? (
+                  <Ionicons
+                    name="checkmark-circle"
+                    color={theme.colors.success}
+                    size={16}
+                  />
+                ) : null
               }
               keyboardType="email-address"
             />
           </Box>
           <Box marginBottom="xs">
             <FlatButton
-              label="Send"
-              disabled={!email || !validateEmail(email)}
+              label={i18n.t('send')}
+              disabled={
+                !email ||
+                !validateEmail(email) ||
+                emailConfirmed ||
+                contactCredential?.credentialSubject.email === email
+              }
               onPress={() => {
+                sendEmail()
                 openEmailSheet()
               }}
             />
@@ -84,23 +212,41 @@ const ContactInformation = () => {
         <Box flexDirection="row" alignItems="flex-end">
           <Box flex={1} marginRight="m">
             <Input
+              editable={validateEmail(email)}
               label={i18n.t('settings.phoneNumber')}
               value={phoneNumber}
               placeholder={i18n.t('settings.phoneNumber')}
               keyboardType="numbers-and-punctuation"
-              onChange={(text) =>
-                setContactInformation({
-                  ...contactInformation,
-                  phoneNumber: text,
-                })
+              prefix={
+                smsConfirmed ||
+                contactCredential?.credentialSubject.phoneNumber ===
+                  phoneNumber ? (
+                  <Ionicons
+                    name="checkmark-circle"
+                    color={theme.colors.success}
+                    size={16}
+                  />
+                ) : null
               }
+              onChange={(text) => {
+                if (!smsConfirmed)
+                  setContactInformation({
+                    ...contactInformation,
+                    phoneNumber: text,
+                  })
+              }}
             />
           </Box>
           <Box marginBottom="xs">
             <FlatButton
-              label="Send"
-              disabled={!phoneNumber}
+              label={i18n.t('send')}
+              disabled={
+                !phoneNumber ||
+                smsConfirmed ||
+                contactCredential?.credentialSubject.phoneNumber === phoneNumber
+              }
               onPress={() => {
+                sendSMS()
                 openPhoneSheet()
               }}
             />
@@ -109,8 +255,23 @@ const ContactInformation = () => {
       </Box>
       <FlatButton
         label={i18n.t('save')}
-        disabled={!email || !phoneNumber}
-        onPress={() => {}}
+        disabled={
+          loading ||
+          !validateEmail(email) || // Disabled if inputted email is not valid
+          (!contactCredential && (!smsConfirmed || !emailConfirmed)) || // Disabled when sms and email is not confirmed and no credential alreaady exists
+          (contactCredential !== null && // Disabled if credentials already exist, email has been changed but new one not yet confirmed
+            contactCredential?.credentialSubject.email !== email &&
+            !emailConfirmed) ||
+          (contactCredential !== null && // Disabled if credentials already exist, phone number has been changed but new one not yet confirmed
+            contactCredential?.credentialSubject.phoneNumber !== phoneNumber &&
+            !smsConfirmed) ||
+          (contactCredential?.credentialSubject.phoneNumber === phoneNumber && // Disabled if new PhoneNumber is the same as old one
+            contactCredential?.credentialSubject.email === email) // Disabled if new Email is same as old one
+        }
+        loading={loading}
+        onPress={() => {
+          createContactInformation()
+        }}
       />
       <OTPverification
         input={emailCode}

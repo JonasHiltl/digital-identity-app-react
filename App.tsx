@@ -1,3 +1,9 @@
+import './shim'
+import 'fastestsmallesttextencoderdecoder'
+import { Buffer } from 'buffer'
+
+/* global.Buffer = Buffer */
+
 import React, { useState, useEffect, useMemo } from 'react'
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import { QueryClient, QueryClientProvider } from 'react-query'
@@ -13,11 +19,10 @@ import Loading from './src/screens/Loading'
 import JWTUtils from './src/utils/jwtUtils'
 
 import 'fastestsmallesttextencoderdecoder'
-import { Buffer } from 'buffer'
-import CustomPersonalDataProvider from './src/context/personalData/CustomPersonalDataCredentialProvider'
+import PersonalDataProvider from './src/context/personalData/PersonalDataCredentialProvider'
 import NotificationsProvider from './src/context/notifications/NotificationsProvider'
+import ContactInformationProvider from './src/context/contactInformation/ContactInformationProvider'
 
-global.Buffer = Buffer
 LogBox.ignoreLogs([
   'ReactNativeFiberHostComponent: Calling getNode() on the ref of an Animated component is no longer necessary. You can now directly use the ref instead. This method will be removed in a future release.',
 ])
@@ -77,19 +82,21 @@ export default function App() {
     <QueryClientProvider client={queryClient}>
       <CustomThemeProvider>
         <AuthContext.Provider value={authProvider}>
-          <CustomPersonalDataProvider>
-            <NotificationsProvider>
-              <BottomSheetModalProvider>
-                {isLoading ? (
-                  <Loading />
-                ) : isAuthenticated ? (
-                  <Navigation />
-                ) : (
-                  <AuthNavigation />
-                )}
-              </BottomSheetModalProvider>
-            </NotificationsProvider>
-          </CustomPersonalDataProvider>
+          <PersonalDataProvider>
+            <ContactInformationProvider>
+              <NotificationsProvider>
+                <BottomSheetModalProvider>
+                  {isLoading ? (
+                    <Loading />
+                  ) : isAuthenticated ? (
+                    <Navigation />
+                  ) : (
+                    <AuthNavigation />
+                  )}
+                </BottomSheetModalProvider>
+              </NotificationsProvider>
+            </ContactInformationProvider>
+          </PersonalDataProvider>
         </AuthContext.Provider>
       </CustomThemeProvider>
     </QueryClientProvider>

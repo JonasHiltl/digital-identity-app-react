@@ -61,11 +61,25 @@
   "notifications": {
     "success": {
       "personalDataUpdate": "Persönliche Daten aktualisiert",
-      "residenceUpdate": "Wohnadresse aktualisiert"
+      "residenceUpdate": "Wohnadresse aktualisiert",
+      "emailConfirmed": "E-Mail bestätigt",
+      "newEmailConfirmed": "Neue E-Mail bestätigt",
+      "phoneConfirmed": "Telefonnummer bestätigt",
+      "newPhoneConfirmed": "Neue Telefonnummer bestätigt",
+      "emailSent": "E-Mail wurde versendet",
+      "smsSent": "Verifizierungscode wurde versendet",
+      "contactInformationUpdated": "Kontaktinformationen aktualisiert",
+      "contactInformationCreated": "Kontaktinformationen erstellt"
     },
     "error": {
       "personalDataUpdate": "Aktualisierung fehlgeschlagen",
-      "residenceUpdate": "Aktualisierung der Wohnadresse fehlgeschlagen"
+      "residenceUpdate": "Aktualisierung der Wohnadresse fehlgeschlagen",
+      "emailConfirmed": "E-Mail Verifizierungscode ist ungültig",
+      "phoneConfirmed": "Verifizierungscode ist ungültig",
+      "emailSent": "E-Mail-Versand fehlgeschlagen",
+      "smsSent": "Verifizierungscode konnte nicht versendet werden",
+      "contactInformationUpdated": "Aktualisierung der Kontaktinformationen fehlgeschlagen",
+      "contactInformationCreated": "Kontaktinformationen konnten nicht erstellt werden"
     }
   }
 }

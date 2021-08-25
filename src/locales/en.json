@@ -16,6 +16,7 @@
   "no": "No",
   "search": "Search",
   "save": "Save",
+  "send": "Send",
   "creation": {
     "header": "Digital Identity",
     "subheader1": "Complete the following steps and take control over your digital identity.",
@@ -61,11 +62,25 @@
   "notifications": {
     "success": {
       "personalDataUpdate": "Personal Data updated",
-      "residenceUpdate": "Residential Address updated"
+      "residenceUpdate": "Residential Address updated",
+      "emailConfirmed": "Email confirmed",
+      "newEmailConfirmed": "New Email confirmed",
+      "phoneConfirmed": "Phone Number confirmed",
+      "newPhoneConfirmed": "New Phone Number confirmed",
+      "emailSent": "Email has been sent",
+      "smsSent": "Verification Code has been sent",
+      "contactInformationUpdated": "Contact information updated",
+      "contactInformationCreated": "Contact information created"
     },
     "error": {
       "personalDataUpdate": "Personal Data update failed",
-      "residenceUpdate": "Residential Address update failed"
+      "residenceUpdate": "Residential Address update failed",
+      "emailConfirmed": "Email code is invalid",
+      "phoneConfirmed": "Verification Code is invalid",
+      "emailSent": "Failed to send email",
+      "smsSent": " Failed to send Verification Code",
+      "contactInformationUpdated": "Failed to update Contact Information",
+      "contactInformationCreated": "Failed to create Contact Information"
     }
   }
 }
