@@ -8,7 +8,7 @@ import Onboarding from './onboarding/Onboarding'
 import Creation from './creation/Creation'
 import { AuthParamList } from './AuthParamList'
 import { Box, useTheme } from '../../context/theme/theme'
-import { useWindowDimensions, View } from 'react-native'
+import { useWindowDimensions } from 'react-native'
 
 const AuthStack = createNativeStackNavigator<AuthParamList>()
 

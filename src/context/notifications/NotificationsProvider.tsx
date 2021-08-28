@@ -21,21 +21,27 @@ const DisplayNotification: React.FC<NotificationProps> = ({
   const opacity = useRef(new Animated.Value(0)).current
 
   useEffect(() => {
-    Animated.sequence([
-      Animated.timing(opacity, {
-        toValue: 1,
-        duration: 300,
-        useNativeDriver: true,
-      }),
-      Animated.delay(1500),
-      Animated.timing(opacity, {
-        toValue: 0,
-        duration: 300,
-        useNativeDriver: true,
-      }),
-    ]).start(() => {
-      onHide()
-    })
+    let mounted = true
+    if (mounted) {
+      Animated.sequence([
+        Animated.timing(opacity, {
+          toValue: 1,
+          duration: 300,
+          useNativeDriver: true,
+        }),
+        Animated.delay(1500),
+        Animated.timing(opacity, {
+          toValue: 0,
+          duration: 300,
+          useNativeDriver: true,
+        }),
+      ]).start(() => {
+        onHide()
+      })
+    }
+    return () => {
+      mounted = false
+    }
   }, [])
 
   return (
@@ -62,7 +68,7 @@ const DisplayNotification: React.FC<NotificationProps> = ({
             : theme.colors.notiErrorBG,
         paddingVertical: theme.spacing.m,
         paddingHorizontal: theme.spacing.m,
-        borderWidth: 1,
+        borderBottomWidth: 1,
         borderColor:
           type === 'success'
             ? theme.colors.notiSuccessBorder

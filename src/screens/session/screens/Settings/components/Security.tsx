@@ -6,9 +6,11 @@ import { Switch } from 'react-native-gesture-handler'
 import Paper from '../../../../../components/custom_comps/paper'
 import { Box, Text, useTheme } from '../../../../../context/theme/theme'
 import i18n from '../../../../../i18n'
+import { useAuth } from '../../../../../context/auth/AuthContext'
 
 const Security: React.FC = () => {
   const theme = useTheme()
+  const { usesLocalAuth, toggleLocalAuth } = useAuth()
 
   return (
     <Box>
@@ -34,7 +36,7 @@ const Security: React.FC = () => {
                 : i18n.t('settings.fingerprint')}
             </Text>
           </Box>
-          <Switch />
+          <Switch value={usesLocalAuth} onValueChange={toggleLocalAuth} />
         </Box>
       </Paper>
     </Box>

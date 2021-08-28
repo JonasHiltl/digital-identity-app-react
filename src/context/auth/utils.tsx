@@ -8,9 +8,9 @@ import axios from 'axios'
   KeyPair,
 } from '@iota/identity-wasm/node' */
 
-import { DID } from '../types'
-import SecureStorage from './secureStorage'
-import CLIENT_CONFIG from '../config'
+import { DID } from '../../types'
+import SecureStorage from '../../utils/secureStorage'
+import CLIENT_CONFIG from '../../config'
 import {
   KeyPair,
   KeyType,

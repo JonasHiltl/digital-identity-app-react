@@ -27,7 +27,7 @@ const PersonalDataProvider: React.FC = ({ children }) => {
 
   useEffect(() => {
     let mounted = true
-    if (isAuthenticated) {
+    if (isAuthenticated && mounted) {
       const getPersonalData = async () => {
         const personalDataJson = await SecureStorage.get('personal-data')
         if (personalDataJson) {

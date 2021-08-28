@@ -24,9 +24,9 @@ import CountryUtils from '../../../utils/countryUtils'
 import { Country } from '../../../types'
 import i18n from '../../../i18n'
 import { useAuth } from '../../../context/auth/AuthContext'
-import DIDUtils from '../../../utils/didUtils'
+import DIDUtils from '../../../context/auth/utils'
 import JWTUtils from '../../../utils/jwtUtils'
-import PersonalDataUtils from '../../../utils/personalData'
+import PersonalDataUtils from '../../../context/personalData/utils'
 import { usePersonalData } from '../../../context/personalData/PersonalDataContext'
 
 const Creation = ({
@@ -114,9 +114,9 @@ const Creation = ({
       state,
       country,
     )
-    setCredential(personalDataVc)
-    login(did, jwt)
     setLoading(false)
+    login(did, jwt)
+    setCredential(personalDataVc)
   }
 
   const scrollHandler = useAnimatedScrollHandler((event) => {
@@ -137,11 +137,13 @@ const Creation = ({
   useEffect(() => {
     let isMounted = true
     console.log('Creation is mounted')
-    const getCountryByCode = async (code: string) => {
-      const loadedCountry = await CountryUtils.getCountryByCode(code)
-      setDisplayedCountry(loadedCountry)
+    if (isMounted) {
+      const getCountryByCode = async (code: string) => {
+        const loadedCountry = await CountryUtils.getCountryByCode(code)
+        setDisplayedCountry(loadedCountry)
+      }
+      getCountryByCode(country)
     }
-    getCountryByCode(country)
     return () => {
       console.log('Creation is unmounted')
       isMounted = false

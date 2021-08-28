@@ -1,3 +1,4 @@
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import React, { useState, useEffect } from 'react'
 import { FlatButton } from '../../../../components/custom_comps/Button'
 import Input from '../../../../components/custom_comps/Input'
@@ -7,9 +8,14 @@ import useNotification from '../../../../context/notifications/NotificationsCont
 import { usePersonalData } from '../../../../context/personalData/PersonalDataContext'
 import { Box } from '../../../../context/theme/theme'
 import i18n from '../../../../i18n'
-import PersonalDataUtils from '../../../../utils/personalData'
+import PersonalDataUtils from '../../../../context/personalData/utils'
+import { SessionParamList } from '../../SessionparamList'
 
-const PersonalData = () => {
+const PersonalData = ({
+  navigation,
+}: {
+  navigation: NativeStackNavigationProp<SessionParamList, 'PersonalData'>
+}) => {
   const { addNotification } = useNotification()
   const { jwt } = useAuth()
   const { credential, setCredential } = usePersonalData()
@@ -75,6 +81,7 @@ const PersonalData = () => {
       })
     }
     setLoading(false)
+    navigation.pop()
   }
 
   return (

@@ -16,14 +16,15 @@ export const CustomThemeProvider: React.FC = ({ children }) => {
 
   useEffect(() => {
     let mounted = true
-    const getTheme = async () => {
-      const isDarkString = await SecureStorage.get('isDark')
-      if (isDarkString === 'true') {
-        setDark(true)
-      } else setDark(false)
+    if (mounted) {
+      const getTheme = async () => {
+        const isDarkString = await SecureStorage.get('isDark')
+        if (isDarkString === 'true') {
+          setDark(true)
+        } else setDark(false)
+      }
+      getTheme()
     }
-    getTheme()
-
     return () => {
       mounted = false
     }

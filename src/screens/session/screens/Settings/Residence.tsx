@@ -1,3 +1,4 @@
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import React, { useState, useEffect } from 'react'
 import { FlatButton } from '../../../../components/custom_comps/Button'
 import CountryPicker from '../../../../components/custom_comps/CountryPicker'
@@ -9,9 +10,14 @@ import { Box } from '../../../../context/theme/theme'
 import i18n from '../../../../i18n'
 import { Country } from '../../../../types'
 import CountryUtils from '../../../../utils/countryUtils'
-import PersonalDataUtils from '../../../../utils/personalData'
+import PersonalDataUtils from '../../../../context/personalData/utils'
+import { SessionParamList } from '../../SessionparamList'
 
-const Residence = () => {
+const Residence = ({
+  navigation,
+}: {
+  navigation: NativeStackNavigationProp<SessionParamList, 'Residence'>
+}) => {
   const { addNotification } = useNotification()
   const { jwt } = useAuth()
   const { credential, setCredential } = usePersonalData()
@@ -78,6 +84,7 @@ const Residence = () => {
       })
     }
     setLoading(false)
+    navigation.pop()
   }
 
   useEffect(() => {

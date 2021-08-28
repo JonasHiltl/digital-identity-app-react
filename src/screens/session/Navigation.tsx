@@ -24,7 +24,6 @@ import Settings from './screens/Settings/Settings'
 
 import { Box, useTheme } from '../../context/theme/theme'
 import { SessionParamList } from './SessionparamList'
-import { useWindowDimensions } from 'react-native'
 import ContactInformation from './screens/Settings/ContactInformation'
 import { useThemeContext } from '../../context/theme/ThemeContext'
 import i18n from '../../i18n'
@@ -37,7 +36,6 @@ const Tab = createBottomTabNavigator()
 export default function Navigation() {
   const theme = useTheme()
   const { isDark } = useThemeContext()
-  const { width, height } = useWindowDimensions()
 
   const stackOptions: NativeStackNavigationOptions = {
     headerBackTitle: i18n.t('back'),

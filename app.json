@@ -15,7 +15,10 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSFaceIDUsageDescription": "Securing the access to the Digital Identity app and personal Information"
+      }
     },
     "android": {
       "adaptiveIcon": {

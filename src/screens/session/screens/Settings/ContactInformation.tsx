@@ -1,6 +1,7 @@
 import React, { useCallback, useRef, useState, useEffect } from 'react'
 import { BottomSheetModal } from '@gorhom/bottom-sheet'
 import { Ionicons } from '@expo/vector-icons'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 
 import { FlatButton } from '../../../../components/custom_comps/Button'
 import Input from '../../../../components/custom_comps/Input'
@@ -9,12 +10,17 @@ import i18n from '../../../../i18n'
 import { generate4DigitString, validateEmail } from '../../../../utils/common'
 import OTPverification from './components/OTPverification'
 import useNotification from '../../../../context/notifications/NotificationsContext'
-import ContactInformationUtils from '../../../../utils/contactInformation'
+import ContactInformationUtils from '../../../../context/contactInformation/utils'
 import { useAuth } from '../../../../context/auth/AuthContext'
 import api from '../../../../utils/axios'
 import { useContactInformation } from '../../../../context/contactInformation/ContactInformation'
+import { SessionParamList } from '../../SessionparamList'
 
-const ContactInformation = () => {
+const ContactInformation = ({
+  navigation,
+}: {
+  navigation: NativeStackNavigationProp<SessionParamList, 'ContactInformation'>
+}) => {
   const theme = useTheme()
   const { addNotification } = useNotification()
   const { contactCredential, setCredential } = useContactInformation()
@@ -155,16 +161,23 @@ const ContactInformation = () => {
       })
     }
     setLoading(false)
+    navigation.pop()
   }
 
   useEffect(() => {
-    const smsCode = generate4DigitString()
-    const emailCode = generate4DigitString()
-    setGeneratedPhoneCode(smsCode)
-    setGeneratedEmailCode(emailCode)
+    let mounted = true
+    if (mounted) {
+      const smsCode = generate4DigitString()
+      const emailCode = generate4DigitString()
+      setGeneratedPhoneCode(smsCode)
+      setGeneratedEmailCode(emailCode)
 
-    console.log(`SMS Code: ${smsCode}`)
-    console.log(`Email Code: ${emailCode}`)
+      console.log(`SMS Code: ${smsCode}`)
+      console.log(`Email Code: ${emailCode}`)
+    }
+    return () => {
+      mounted = false
+    }
   }, [])
 
   return (

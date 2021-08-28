@@ -1,6 +1,6 @@
-import { ContactInformationCredential } from '../types'
-import api from './axios'
-import SecureStorage from './secureStorage'
+import { ContactInformationCredential } from '../../types'
+import api from '../../utils/axios'
+import SecureStorage from '../../utils/secureStorage'
 
 class ContactInformationUtils {
   static async create(jwt: string, email: string, phoneNumber: string) {

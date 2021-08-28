@@ -27,7 +27,7 @@ const ContactInformationProvider: React.FC = ({ children }) => {
 
   useEffect(() => {
     let mounted = true
-    if (isAuthenticated) {
+    if (isAuthenticated && mounted) {
       const getContactInformation = async () => {
         const contactInformationJson = await SecureStorage.get(
           'contact-information',

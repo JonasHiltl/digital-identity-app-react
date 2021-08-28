@@ -36,7 +36,7 @@ const CountryPicker: React.FC<Props> = ({
 
   const [countries, setCountries] = useState<Country[]>([])
 
-  const snapPoints = useMemo(() => ['50%', '80%'], [])
+  const snapPoints = useMemo(() => ['75%', '80%'], [])
 
   const handlePresentModalPress = useCallback(() => {
     getAllCountries()
@@ -53,7 +53,7 @@ const CountryPicker: React.FC<Props> = ({
   }
 
   const getCountryByName = async (name: string) => {
-    const data = await CountryUtils.getCountryByName(name)
+    const data = await CountryUtils.getCountryByName(name.trim())
     setCountries(data)
   }
 
@@ -90,7 +90,7 @@ const CountryPicker: React.FC<Props> = ({
 
   useEffect(() => {
     let isMounted = true
-    getAllCountries()
+    if (isMounted) getAllCountries()
     return () => {
       isMounted = false
     }

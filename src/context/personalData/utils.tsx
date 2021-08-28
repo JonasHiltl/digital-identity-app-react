@@ -1,7 +1,6 @@
-import axios from 'axios'
-import { PersonalDataCredential } from '../types'
-import api from './axios'
-import SecureStorage from './secureStorage'
+import { PersonalDataCredential } from '../../types'
+import api from '../../utils/axios'
+import SecureStorage from '../../utils/secureStorage'
 
 class PersonalDataUtils {
   static async create(
